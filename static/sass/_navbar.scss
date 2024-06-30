@@ -1,0 +1,76 @@
+header {
+    background: $primary-color;
+
+    nav {
+        height: 80px;
+        height: 80px;
+        padding: 0 50px;
+        @include flex(2);
+
+        .logo {
+            @include flex(1);
+            gap: 4px;
+
+            img {
+                height: 62px;
+                width: 62px;
+                border-radius: 50%;
+                margin-right: 6px;
+            }
+        }
+
+        ul {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+
+            li {
+                height: 80px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                a {
+                    color: $text-color2;
+                    transition: 0.3s;
+
+                    &::after {
+                        content: "";
+                        display: block;
+                        border-radius: 2px;
+                        height: 2px;
+                        width: 0;
+                        background: $text-color2;
+                        margin: auto;
+                        transition: 0.3s;
+                    }
+                }
+
+                &:hover {
+                    a {
+                        color: $text-color2;
+                        margin-bottom: 4px;
+
+                        &::after {
+                            margin-top: 4px;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            li.active {
+                a {
+                    color: $text-color;
+                    margin-bottom: 6px;
+
+                    &::after {
+                        margin-top: 6px;
+                        width: 100%;
+                    }
+                }
+
+            }
+        }
+    }
+}

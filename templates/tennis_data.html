@@ -1,0 +1,111 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSSPE Scoring System</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/sports">Sports</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </div> 
+    <div class="sidebar">
+        <h5>Scoring Board</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_scoreboard">Singles Scoreboard</a></li>
+            <li><a href="/double_tennis_scoreboard">Mixed/Doubles Scoreboard</a></li>
+        </ul>
+        <h5>Match Sheet</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_sheet">Single Scoresheet</a></li>
+            <li><a href="/double_tennis_sheet">Mixed/Doubles Scoresheet</a></li>
+        </ul>
+        <h5>Display</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_display">Single Score Display</a></li>
+            <li><a href="/double_tennis_display">Mixed/Doubles Score Display</a></li>
+        </ul>
+        <h5>History</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/match_history">Game</a></li>
+        </ul>
+        <h5>Randomizer</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/tennis_bracket">Create</a></li>
+        </ul>
+        <h5>Sport Data</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/tennis_sport_data">Add Information</a></li>
+        </ul>
+        <h5>Logout</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+    </div>
+</header>  
+<h1>School Years</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>School Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for school_year in school_years %}
+        <tr>
+            <td ><a href="{% url 'myapp:tennis_sport_details' year_id=school_year.pk %}" class="school-year">
+                {{ school_year.start_year }}-{{ school_year.end_year }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="/add_year" class="add-btn">Add School Year</a>
+</div>
+
+<h1>Colleges</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>College Abbreviaton</th>
+            <th>College Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for college in colleges %}
+        <tr>
+            <td>{{ college.college_abb }}</td>
+            <td>{{ college.college_name }}</td>
+            <td>
+                <a href="{% url 'myapp:edit_college' college.collegeID %}" class="edit-btn">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="/add_college" class="add-btn">Add College</a>
+</div>
+</body>
+</html>

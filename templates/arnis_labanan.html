@@ -1,0 +1,558 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSSPE Scoring System</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/arnis.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/sport">Sports</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </div> 
+    <div class="sidebar">
+        <h5>Scoring Board</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/arnis_labanan">Arnis Labanan</a></li>
+            <li><a href="/arnis_anyo">Anyo/Form</a></li>
+        </ul>
+        <h5>Full Contact Sheet</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/labanan_sheet">Arnis Labanan</a></li>
+            <li><a href="/anyo_sheet">Anyo/Form</a></li>
+        </ul>
+        <h5>Display</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/labanan_display">Arnis Labanan</a></li>
+            <li><a href="/anyo_display">Anyo/Form</a></li>
+        </ul>
+        <h5>History</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/match_history">Match</a></li>
+        </ul>
+        <h5>Randomizer</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/arnis_bracket">Create</a></li>
+        </ul>
+        <h5>Sport Data</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/arnis_sport_data">Add Information</a></li>
+        </ul>
+        <h5>Logout</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+    </div>
+</header>
+<main>
+    <h1>Scoring Board</h1>
+    <div class="container">
+        <form method="get" action="" >
+            <select name="school_year" onchange="this.form.submit()" class="school-year">
+                <option value="" >Select a School Year</option>
+                {% for year in school_years %}
+                    <option value="{{ year.YearID }}" {% if selected_year_id|stringformat:"s" == year.YearID|stringformat:"s" %}selected{% endif %}>
+                        {{ year.start_year }}-{{ year.end_year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <div class="input-fields">
+            <label for="weight-category">Weight Category:</label>
+            <select id="weight-category" name="weight_category" class="input-fields">
+                <option value="" >--.--</option>
+                <option value="pinweight">Pinweight</option>
+                <option value="bantamweight">Bantamweight</option>
+                <option value="featherweight">Featherweight</option>
+                <option value="extra_lightweight">Extra Lightweight</option>
+                <option value="half_lightweight">Half Lightweight</option>
+            </select>
+
+            <label for="division">Division:</label>
+            <select id="division" name="division" class="input-fields">
+                <option value="" >--.--</option>
+                <option value="Mens">Mens</option>
+                <option value="Womens">Womens</option>
+            </select>
+        </div>            
+        <div class="team red-team">
+            <div class="info red-team">
+                <h3>Red Team</h3>
+                <div class="player-input">
+                    <div class="input-group">
+                        <label for="red-team-name">Team:</label>
+                        <select id="red-team-name" name="red_team_name" class="player-input">
+                            <option value="" >--.--</option>
+                            {% for player in players %}
+                                <option value="{{ player.collegeID }}">{{ player.collegeID }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="red-player-name">Name:</label>
+                        <select id="red-player-name" name="red_player_name" class="player-input">
+                            <option value="" >--.--</option>
+                            {% for player in players %}
+                                <option value="{{ player.player_name }}">{{ player.player_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+                <div class="score-display">
+                        <button id="red-decrease-btn">-</button>
+                        <p id="red-score">0</p>
+                        <button id="red-increase-btn">+</button>
+                    </div>
+                <!-- Additional info for Red Team -->
+                <div class="additional-info">
+                    <div class="foul">
+                        <h2>F:</h2>    
+                        <button id="red-foul-decrease-btn">-</button>
+                        <p id="red-foul">0</p>
+                        <button id="red-foul-increase-btn">+</button>
+                    </div>
+        
+                    <div class="disarmed">
+                        <h2>D:</h2>                            
+                        <button id="red-disarmed-decrease-btn">-</button>
+                        <p id="red-disarmed">0</p>
+                        <button id="red-disarmed-increase-btn">+</button>
+                    </div>
+        
+                    <div class="win">
+                        <h2>Win:</h2>
+                        <p id="red-win">0</p>
+                    </div>
+                </div>
+            </div>            <!-- Blue team -->
+            <div class="team blue-team">
+                <div class="info blue-team">
+                    <div class="player-input">
+                        <div class="input-group">
+                            <label for="blue-team-name">Team:</label>
+                            <select id="blue-team-name" name="blue_team_name" class="player-input">
+                                <option value="" >--.--</option>
+                                {% for player in players %}
+                                    <option value="{{ player.collegeID }}">{{ player.collegeID }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="blue-player-name">Name:</label>
+                            <select id="blue-player-name" name="blue_player_name" class="player-input">
+                                <option value="" >--.--</option>
+                                {% for player in players %}
+                                    <option value="{{ player.player_name }}">{{ player.player_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>                    
+                    </div>
+                <h3>Blue Team</h3>
+            </div>
+            <div class="score-display">
+                <button id="blue-decrease-btn">-</button>
+                <p id="blue-score">0</p>
+                <button id="blue-increase-btn">+</button>
+            </div>
+                <!-- Additional info for Blue Team -->
+                <div class="additional-info">
+                    <div class="win">
+                        <h2>Win:</h2>
+                        <p id="blue-win">0</p>
+                    </div>
+                    <div class="foul">
+                        <h2>F:</h2>    
+                        <button id="blue-foul-decrease-btn">-</button>
+                        <p id="blue-foul">0</p>
+                        <button id="blue-foul-increase-btn">+</button>
+                    </div>
+        
+                    <div class="disarmed">
+                        <h2>D:</h2>                            
+                        <button id="blue-disarmed-decrease-btn">-</button>
+                        <p id="blue-disarmed">0</p>
+                        <button id="blue-disarmed-increase-btn">+</button>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="middle-section">
+                <!-- Time -->
+                <div class="time">
+                    <h2>Time</h2>
+                    <div id="time-display">0:00</div>
+                    <div class="time-buttons">
+                        <button id="play-btn">Play</button>
+                        <button id="pause-btn">Pause</button>
+                        <button id="stop-btn">Stop</button>
+                    </div>
+                </div>
+        
+                <div class="round">
+                    <h2>Round</h2> 
+                    <div class="round-score">                       
+                    <button id="round-decrease-btn">-</button>
+                    <p id="round">0</p>
+                    <button id="round-increase-btn">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="out-btn">
+        <button id="reset-button" class="reset-button">Reset</button>
+        <button id="save-round-btn" class="save-round-btn">Save Round</button>
+        </div>
+    <script>
+        function clearScores() {
+            localStorage.removeItem('red-score');
+            localStorage.removeItem('red-foul');
+            localStorage.removeItem('red-disarmed');
+            localStorage.removeItem('red-win');
+            localStorage.removeItem('blue-score');
+            localStorage.removeItem('blue-foul');
+            localStorage.removeItem('blue-disarmed');
+            localStorage.removeItem('blue-win');
+            localStorage.removeItem('time');
+            localStorage.removeItem('round');
+        }
+    
+        // Call clearScores when the page loads to reset the data
+        window.onload = function() {
+            clearScores();
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateScore(displayId, isIncrement) {
+                const displayElement = document.getElementById(displayId);
+                let score = parseInt(displayElement.textContent, 10);
+                score = isIncrement ? score + 1 : (score - 1 >= 0 ? score - 1 : 0); // Prevents negative scores
+                displayElement.textContent = score;
+
+                localStorage.setItem(displayId, score);
+            }
+
+            const redPlayerSelect = document.getElementById("red-player-name");
+            const bluePlayerSelect = document.getElementById("blue-player-name");
+            
+            function syncPlayerSelections() {
+                const redSelected = redPlayerSelect.value;
+                const blueSelected = bluePlayerSelect.value;
+                
+                // Clear options
+                const redOptions = redPlayerSelect.querySelectorAll("option");
+                const blueOptions = bluePlayerSelect.querySelectorAll("option");
+        
+                redOptions.forEach(option => {
+                    option.style.display = "block";
+                });
+        
+                blueOptions.forEach(option => {
+                    option.style.display = "block";
+                });
+        
+                if (redSelected) {
+                    blueOptions.forEach(option => {
+                        if (option.value === redSelected) {
+                            option.style.display = "none";
+                        }
+                    });
+                }
+        
+                if (blueSelected) {
+                    redOptions.forEach(option => {
+                        if (option.value === blueSelected) {
+                            option.style.display = "none";
+                        }
+                    });
+                }
+            }
+        
+            redPlayerSelect.addEventListener("change", syncPlayerSelections);
+            bluePlayerSelect.addEventListener("change", syncPlayerSelections);
+        
+            // Initial sync in case of preselected values
+            syncPlayerSelections();
+
+            document.getElementById('save-round-btn').addEventListener('click', function() {
+                // Collecting team and player names
+            
+                // Collecting scores and additional info
+                const redScore = document.getElementById('red-score').innerText;
+                const redFoul = document.getElementById('red-foul').innerText;
+                const redDisarmed = document.getElementById('red-disarmed').innerText;
+                const redWin = document.getElementById('red-win').innerText;
+                
+                const blueScore = document.getElementById('blue-score').innerText;
+                const blueFoul = document.getElementById('blue-foul').innerText;
+                const blueDisarmed = document.getElementById('blue-disarmed').innerText;
+                const blueWin = document.getElementById('blue-win').innerText;
+                const time = document.getElementById('time-display').innerText;
+                const round = document.getElementById('round').innerText;
+            
+                // Structuring the data to save
+                const roundData = {
+                    redTeam: {
+                        score: redScore,
+                        foul: redFoul,
+                        disarmed: redDisarmed,
+                        win: redWin
+                    },
+                    blueTeam: {
+                        score: blueScore,
+                        foul: blueFoul,
+                        disarmed: blueDisarmed,
+                        win: blueWin
+                    },        
+                    round: round,
+                    time: time
+                };
+            
+                // Saving the structured data in localStorage
+                localStorage.setItem(`roundData${round}`, JSON.stringify(roundData));
+            
+                // Console log for round 3 disarmed data
+                if(round === '3') {
+                    console.log(`Round 3 - Red Team Disarmed: ${redDisarmed}, Blue Team Disarmed: ${blueDisarmed}`);
+                }
+            
+                // Optionally, notify the user that the data has been saved
+                alert(`Round ${round} data saved.`);
+            });
+            
+
+            function loadStaticData() {
+                const staticDataIds = [
+                    'weight-category', 
+                    'division', 
+                    'red-team-name', 
+                    'red-player-name', 
+                    'blue-team-name', 
+                    'blue-player-name'
+                ];
+                staticDataIds.forEach(function(id) {
+                    const data = localStorage.getItem(id) || '';
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'select-one' || element.tagName === 'SELECT') {
+                            // For select elements, set the value to make an option selected
+                            element.value = data;
+                        } else if (element.type === 'text') {
+                            // For input[type="text"] fields, set the value
+                            element.value = data;
+                        } else {
+                            // For any other non-input, non-select elements (if applicable)
+                            element.textContent = data;
+                        }
+                    }
+                });
+            }
+            
+            // Continue with setupInputListeners() function as you have it            
+            function setupInputListeners() {
+                const selectIds = [
+                    'weight-category', 
+                    'division', 
+                    'red-team-name', 
+                    'red-player-name', 
+                    'blue-team-name', 
+                    'blue-player-name'
+                ];
+                selectIds.forEach(function(id) {
+                    document.getElementById(id).addEventListener('change', function(e) {
+                        localStorage.setItem(id, e.target.value); // Save the current value to localStorage
+                    });
+                });
+            }
+        
+            let timer;
+            let seconds = parseInt(localStorage.getItem('time'), 10) || 0;
+            var alertSoundSrc = "{% static 'audio/alert.mp3' %}";    
+            var alertSound = new Audio(alertSoundSrc); // Creating the Audio object
+
+            function displayTime() {
+                const minutesPart = Math.floor(seconds / 60).toString().padStart(1, '0');
+                const secondsPart = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('time-display').textContent = `${minutesPart}:${secondsPart}`;
+            }
+            
+            function startTimer() {
+                if (!timer) {
+                    timer = setInterval(function() {
+                        seconds++;
+                        displayTime();
+                        localStorage.setItem('time', seconds);
+            
+                        if (seconds >= 120) { // Change this to match the desired duration
+                            stopTimer();
+                            alertSound.play();
+                        }
+                    }, 1000);
+                }
+            }
+            
+            function stopTimer() {
+                clearInterval(timer);
+                timer = null;
+            }
+            
+            function resetTimer() {
+                stopTimer();
+                seconds = 0;
+                displayTime();
+                localStorage.setItem('time', seconds); // Ensure the reset time is saved to localStorage
+            }                       
+        
+            // General event listener for all buttons
+            function setupButtonListeners() {
+                const buttons = [
+                    { buttonId: 'red-increase-btn', displayId: 'red-score', isIncrement: true },
+                    { buttonId: 'red-decrease-btn', displayId: 'red-score', isIncrement: false },
+                    { buttonId: 'blue-increase-btn', displayId: 'blue-score', isIncrement: true },
+                    { buttonId: 'blue-decrease-btn', displayId: 'blue-score', isIncrement: false },
+                    { buttonId: 'red-foul-increase-btn', displayId: 'red-foul', isIncrement: true },
+                    { buttonId: 'red-foul-decrease-btn', displayId: 'red-foul', isIncrement: false },
+                    { buttonId: 'blue-foul-increase-btn', displayId: 'blue-foul', isIncrement: true },
+                    { buttonId: 'blue-foul-decrease-btn', displayId: 'blue-foul', isIncrement: false },
+                    { buttonId: 'red-disarmed-increase-btn', displayId: 'red-disarmed', isIncrement: true },
+                    { buttonId: 'red-disarmed-decrease-btn', displayId: 'red-disarmed', isIncrement: false },
+                    { buttonId: 'blue-disarmed-increase-btn', displayId: 'blue-disarmed', isIncrement: true },
+                    { buttonId: 'blue-disarmed-decrease-btn', displayId: 'blue-disarmed', isIncrement: false },
+                    { buttonId: 'round-increase-btn', displayId: 'round', isIncrement: true },
+                    { buttonId: 'round-decrease-btn', displayId: 'round', isIncrement: false },
+                ];
+        
+                buttons.forEach(function(btn) {
+                    document.getElementById(btn.buttonId).addEventListener('click', function() {
+                        updateScore(btn.displayId, btn.isIncrement);
+                    });
+                });
+            }
+        
+            // Timer button event listeners
+            document.getElementById('play-btn').addEventListener('click', startTimer);
+            document.getElementById('pause-btn').addEventListener('click', stopTimer);
+            document.getElementById('stop-btn').addEventListener('click', resetTimer);
+        
+            loadStaticData();
+            displayTime();
+            setupButtonListeners();
+            setupInputListeners();
+        });      
+// Global variable to track the first scorer
+let firstScorer = null;
+
+function updateScore(teamName, increment) {
+    // Check if it's the first score of the game
+    if (firstScorer === null) {
+        firstScorer = teamName;
+    }
+
+    // Update the score based on the teamName
+    const scoreElementId = teamName === 'Red Team' ? 'red-score' : 'blue-score';
+    const currentScore = parseInt(document.getElementById(scoreElementId).textContent, 10);
+    document.getElementById(scoreElementId).textContent = currentScore + increment;
+}
+
+function determineWinnerAndUpdateWinCount() {
+    const redScore = parseInt(document.getElementById('red-score').textContent, 10);
+    const blueScore = parseInt(document.getElementById('blue-score').textContent, 10);
+    const redFouls = parseInt(document.getElementById('red-foul').textContent, 10);
+    const blueFouls = parseInt(document.getElementById('blue-foul').textContent, 10);
+    const redDisarmed = parseInt(document.getElementById('red-disarmed').textContent, 10);
+    const blueDisarmed = parseInt(document.getElementById('blue-disarmed').textContent, 10);
+
+    let winner = '';
+
+    // Determine the winner based on score, fouls, and disarms
+    if (redScore > blueScore) {
+        winner = 'Red Team';
+    } else if (blueScore > redScore) {
+        winner = 'Blue Team';
+    } else {
+        // Scores are tied, check fouls and disarms
+        if (redFouls < blueFouls || (redFouls === blueFouls && redDisarmed < blueDisarmed)) {
+            winner = 'Red Team';
+        } else if (blueFouls < redFouls || (blueFouls === redFouls && blueDisarmed < redDisarmed)) {
+            winner = 'Blue Team';
+        } else {
+        if (firstScorer = 'Blue Team') {
+            winner = 'Blue Team';
+        }
+        if (firstScorer = 'Red Team') {
+            winner = 'Red Team';
+        }
+    }
+    }
+    updateWinCount(winner);
+}
+
+function updateWinCount(winner) {
+        let winCount;
+        if (winner === 'Red Team') {
+            winCount = parseInt(localStorage.getItem('red-win') || '0') + 1;
+            localStorage.setItem('red-win', winCount);
+            document.getElementById('red-win').textContent = winCount; // Make sure the ID matches your HTML
+        } else if (winner === 'Blue Team') {
+            winCount = parseInt(localStorage.getItem('blue-win') || '0') + 1;
+            localStorage.setItem('blue-win', winCount);
+            document.getElementById('blue-win').textContent = winCount; // Make sure the ID matches your HTML
+        }
+    }
+// Event listeners for the stop and pause buttons
+
+document.getElementById('stop-btn').addEventListener('click', determineWinnerAndUpdateWinCount);
+document.getElementById('pause-btn').addEventListener('click', determineWinnerAndUpdateWinCount);
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('reset-button').addEventListener('click', function() {
+        // Reset UI elements on the scoreboard page
+        document.getElementById('red-score').textContent = '0';
+        document.getElementById('red-foul').textContent = '0';
+        document.getElementById('red-disarmed').textContent = '0';
+        document.getElementById('red-win').textContent = '0';
+        document.getElementById('blue-score').textContent = '0';
+        document.getElementById('blue-foul').textContent = '0';
+        document.getElementById('blue-disarmed').textContent = '0';
+        document.getElementById('blue-win').textContent = '0';
+        document.getElementById('time-display').textContent = '00:00';
+
+        // Clear localStorage for each score and state
+        localStorage.removeItem('red-score');
+        localStorage.removeItem('red-foul');
+        localStorage.removeItem('red-disarmed');
+        localStorage.removeItem('red-win');
+        localStorage.removeItem('blue-score');
+        localStorage.removeItem('blue-foul');
+        localStorage.removeItem('blue-disarmed');
+        localStorage.removeItem('blue-win');
+        localStorage.removeItem('time-display');
+
+        localStorage.setItem('resetTrigger', 'reset');
+    });
+});
+
+
+
+
+</script>
+</main>
+</body>
+</html>

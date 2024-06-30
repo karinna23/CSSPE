@@ -1,0 +1,66 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLE TENNIS</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/tennis.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/sports">Sports</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </div> 
+    <div class="sidebar">
+        <h5>Scoring Board</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_scoreboard">Singles Scoreboard</a></li>
+            <li><a href="/double_tennis_scoreboard">Mixed/Doubles Scoreboard</a></li>
+        </ul>
+        <h5>Match Sheet</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_sheet">Single Scoresheet</a></li>
+            <li><a href="/double_tennis_sheet">Mixed/Doubles Scoresheet</a></li>
+        </ul>
+        <h5>Display</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/single_tennis_display">Single Score Display</a></li>
+            <li><a href="/double_tennis_display">Mixed/Doubles Score Display</a></li>
+        </ul>
+        <h5>History</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/match_history">Game</a></li>
+        </ul>
+        <h5>Randomizer</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/tennis_bracket">Create</a></li>
+        </ul>
+        <h5>Sport Data</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/tennis_sport_data">Add Information</a></li>
+        </ul>
+        <h5>Logout</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/logout">logout</a></li>
+        </ul>
+    </div>
+</header>
+</body>
+</html>

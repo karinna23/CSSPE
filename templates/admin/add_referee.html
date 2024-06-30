@@ -1,0 +1,49 @@
+{% extends "../base.html" %}
+{%load static%}
+{% block title %}Admin | Referees{% endblock %}
+{% block content %}
+<form method="post" class="add-referee">
+    {% csrf_token %}
+    <div class="">
+        <label for="f_name">First Name</label>
+        <input type="text" name="f_name" id="f_name" placeholder="first name">
+    </div>
+    <div class="">
+        <label for="m_name">Middle Name</label>
+        <input type="text" name="m_name" id="m_name" placeholder="middle name">
+    </div>
+    <div class="">
+        <label for="l_name">Last Name</label>
+        <input type="text" name="l_name" id="l_name" placeholder="last name">
+    </div>
+    <div class="">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="username">
+    </div>
+    <div class="">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" placeholder="sample@gmail.com">
+    </div>
+    <div class="">
+        <label for="password">Password</label>
+        <input type="text" name="password" id="password" placeholder="********">
+    </div>
+    <div class="">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="text" id="confirm_password" placeholder="********">
+    </div>
+    <div class="sports">
+        <label>Sports Referee</label>
+
+        <input type="checkbox" id="arnis" name="arnis">
+        <label for="arnis">Arnis</label>
+        
+        <input type="checkbox" id="volleyB" name="volleyB">
+        <label for="volleyB">Volley Ball</label>
+
+        <input type="checkbox" id="tTennis" name="tTennis">
+        <label for="tTennis">Table Tennis</label>
+    </div>
+    <input type="submit" name="submit" value="Create new referee">
+</form>
+{% endblock %}

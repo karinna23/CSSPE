@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{%load static%}
+{% block title %}Sports Scoring | Login{% endblock %}
+{% block content %}
+<form method="post" id="login" class="referee-login">
+    {% csrf_token %}
+    <div class="title">
+        <p>Welcome back Ref!</p>
+    </div>
+
+    <div class="content">
+        <div class="wrapper">
+            <label for="email">Email</label>
+
+            <div class="input-cont">
+                <img src="{% static '/img/icons/mail.svg' %}">
+                <input type="text" id="email" name="email" placeholder="sample@gmail.com">
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <label for="password">Password</label>
+
+            <div class="input-cont pass-cont">
+                <img src="{% static '/img/icons/lock.svg' %}">
+                <input type="password" id="password" name="password" placeholder="********">
+                <button type="button" class="toggle-pass-btn">
+                    <img class="toggle-pass-icon" src="{% static '/img/icons/eye.svg' %}">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <div class="remember">
+            <input type="checkbox" name="remember" id="remember">
+            <label for="remember">Remember me</label>
+        </div>
+
+        <a href="#">Forgot Password?</a>
+    </div>
+
+    <input type="submit" value="Log in" class="prim-big-btn">
+</form>
+
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

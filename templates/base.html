@@ -1,0 +1,36 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'sass/style.css' %}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'myapp:landing' %}" class="logo medium-font">
+                <img src="{% static 'img/csspe.png' %}" alt="Logo">
+                Sports Scoring System
+            </a>
+
+            <ul>
+                <li><a href="{% url 'myapp:landing' %}">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="{% url 'myapp:sports' %}">Sports</a></li>
+                <li><a href="#">Referees</a></li>
+
+                <a href="{% url 'myapp:login' %}" class="sec-med-btn">Ref Login</a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

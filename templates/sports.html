@@ -1,0 +1,35 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSSPE Scoring System</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/sports.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="/sports">Sports</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </div> 
+</header>
+<main>
+    <h1>CHOOSE A SPORT:</h1>
+    {{ user.is_superuser }}
+    <div class="sports-buttons">
+        <a href="/arnis">ARNIS</a>
+        <a href="/volleyball">VOLLEYBALL</a>
+        <a href="/table_tennis">TABLE TENNIS</a>
+    </div>
+</main>
+</body>
+</html>

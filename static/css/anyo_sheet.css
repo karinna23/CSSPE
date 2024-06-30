@@ -1,0 +1,261 @@
+body {
+    background-image: url('/static/img/log.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fix the background image */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.navbar {
+    background-color: #ca4f4dcd;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    font-weight: bold;
+    position: fixed;
+    margin: 0;
+    width: 100%; /* Make the navbar full width */
+    top: 0; /* Stick the navbar to the top */
+    z-index: 1000; /* Ensure the navbar is on top of other elements */
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 20px;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.nav-links ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.nav-links ul li a {
+    color: #0b0b0b;
+    text-decoration: none;
+}
+
+.sidebar {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 180px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #D9D9D9;
+    box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 8px;
+    padding-top: 50px;
+}
+
+.sidebar h5 {
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+.sidebar ul {
+    font-size: 11px;
+    list-style-type: none;
+    padding: 0;
+    margin: -5px;
+}
+
+.sidebar ul li {
+    padding: 5px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgb(185, 185, 185);
+}
+
+/* Page content */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.container {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #cececeab;
+    margin-left: 250px;
+    width: 80%;
+    padding-top: 10px; /* Remove padding */
+    border-radius: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    justify-content: space-around; /* This will space out the children (team1, middle-section, team2) */
+}
+
+h1 {
+    font-size: 23px;
+    padding-top: 55px;
+    margin-left: 200px;
+    text-align: center;
+}
+
+
+.coordinator {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.coordinator label {
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+.coordinator select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+
+.container .bold-horizontal-line {
+    margin: 0;
+    border-top: 1px solid; /* Adjust the thickness here */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+table, th, td {
+    border: 1px solid #000000;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+.column {
+    display: block;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.columns {
+    width: 100%;
+    flex: 1;
+}
+
+.match-info {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+}
+
+.match-info label {
+     margin-right: 10px; /* Space between label and input */
+     white-space: nowrap;
+}
+
+.match-info input[type="text"], .match-info input[type="datetime-local"] {
+    width: 70%;
+    border: solid 1px black;
+    background-color: #ffffff;
+    padding: 3px;
+}
+
+.match-info select{
+    width: 70%;
+    border: solid 1px black;
+    background-color: #ffffff;
+    padding: 3px;
+}
+
+.delete-row {
+    background-color: #EE5E4B;
+    padding: 8px;
+    border: none;
+    font-size: 12px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.delete-row:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.delete-row {
+    background-color: #EE5E4B;
+    padding: 8px;
+    border: none;
+    font-size: 12px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.delete-row:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.save-sheet-btn {
+    background-color: green;
+    padding: 10px;
+    margin: 20px;
+    border: none;
+    font-size: 12px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.save-sheet-btn:hover {
+    background-color: #00b700;
+}
+
+.year {
+    position: relative;
+    margin-bottom: -60px;
+    margin-top: 22px;
+    margin-left: 66%;
+    text-align: left;
+}
+
+.school-year{
+    border: solid 1px black;
+    padding: 5px;
+    margin: 5px;
+    font-size: 12px;
+    width: 278px;
+    text-align: left;
+}
