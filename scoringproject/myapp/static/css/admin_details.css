@@ -1,0 +1,564 @@
+body {
+    background-image: url('/static/img/log.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fix the background image */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Additional styles for the chart container */
+
+.stats-section {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-bottom: 30px; /* Spacing between sections */
+}
+
+.statistics-list {
+    display: flex;
+    justify-content: space-between; /* Space out items */
+    width: 100%; /* Use full width of the section */
+    padding: 0 20px; /* Add horizontal padding */
+    margin-top: 10px; /* Space above the stats */
+}
+
+canvas {
+    max-width: 400px; /* Set maximum width for charts */
+    max-height: 300px; /* Set maximum height for charts */
+    width: 100%; /* Ensure canvas takes full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center the canvas */
+}
+
+.canvas-container {
+    margin: 0 auto;
+    display: flex;
+    margin: 10px;
+    background-color: #ffffff88;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.227);
+
+}
+
+#matchCountChart{
+    max-width: 80%; /* Set maximum width for charts */
+    max-height: 400px; /* Set maximum height for charts */
+}
+.stat-item {
+    flex: 1; /* Flex property to take equal space */
+    text-align: center; /* Center text within each item */
+    padding: 5px; /* Padding around each stat item */
+    background-color: #f0f0f0; /* Light background for contrast */
+    margin: 0 5px; /* Spacing between items */
+    font-size: 12px;
+    font-weight: lighter;
+}
+
+
+.navbar {
+    background-color: #ca4f4dcd;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    font-weight: bold;
+    position: fixed;
+    margin: 0;
+    width: 100%; /* Make the navbar full width */
+    top: 0; /* Stick the navbar to the top */
+    z-index: 1000; /* Ensure the navbar is on top of other elements */
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 20px;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.nav-links ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.nav-links ul li a {
+    color: #0b0b0b;
+    text-decoration: none;
+}
+
+.icon {
+    width: 24px; /* Set the size of the icon */
+    height: 24px; /* Set the size of the icon */
+}
+
+img {
+    transition: filter 0.3s; /* Transition effect for filter */
+}
+
+li:hover img {
+    filter: invert(1); /* Invert colors on hover */
+}
+
+.tooltip-text {
+    visibility: hidden; /* Hide tooltip by default */
+    width: 70px; /* Width of tooltip */
+    background-color: rgba(0, 0, 0, 0.314); /* Background color of tooltip */
+    color: #fff; /* Text color */
+    text-align: center; /* Center text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 3px; /* Padding */
+    font-size: 8px;
+    position: absolute; /* Position tooltip */
+    z-index: 1; /* Keep tooltip above other content */
+    top: 110%; /* Position above the icon */
+    right: 10px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s; /* Fade effect */
+}
+
+li:hover .tooltip-text {
+    visibility: visible; /* Show tooltip on hover */
+    opacity: 1; /* Make it visible */
+}
+
+.sidebar {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 180px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #D9D9D9;
+    box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 8px;
+    padding-top: 50px;
+}
+
+.sidebar h5 {
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+.sidebar ul {
+    font-size: 11px;
+    list-style-type: none;
+    padding: 0;
+    margin: -5px;
+}
+
+.sidebar ul li {
+    padding: 5px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgb(185, 185, 185);
+}
+
+/* Page content */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* arnis/static/arnis/styles.css */
+
+/* Container */
+    .container {
+
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin: 0 auto;
+        width: 80%;
+        padding-top: 10px; /* Remove padding */
+        border-radius: 20px;
+        text-align: center;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        justify-content: space-around; /* This will space out the children (team1, middle-section, team2) */
+    }
+
+/* Input fields */
+.input-fields {
+    width: 80%;
+    display: flex;
+    margin: 0 auto;    
+    align-items: center;
+
+}
+
+.input-fields label {
+    margin-right: 5px;
+    font-size: 12px;
+    white-space: nowrap;  
+    font-weight: bold;
+    text-align: center;
+}
+
+.input-fields input {
+    border: none;
+    background-color: #D9D9D9;
+    width: 50%;
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.info {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+}
+
+.red-team h3 {
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    align-items: center;
+    background-color: #EE5E4B;
+    padding: 10px;
+}
+
+.blue-team h3 {
+    color: #fff;
+    font-size: 15px;
+    text-align: center;
+    align-items: center;
+    background-color: #5AA4FB;
+    padding: 10px;
+}
+
+.player-input {    
+    width: 365px;
+    margin-top: 5px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
+.input-group {
+    display: flex;
+    align-items: center; /* Align label and input vertically */
+}
+
+.input-group label{
+    font-size: 12px;
+    font-weight: bold;
+    width: 50px;
+    margin-right: 5px;
+}
+
+.input-group input{
+    width: 100%;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    border: none;
+    background-color: #D9D9D9;
+    padding: 8px;
+    font-size: 12px;
+}
+
+/* Team section */
+.team {
+    display: inline-block;
+    width: 45%;
+}
+
+.team h2 {
+    margin-bottom: 10px;
+}
+
+.score-display {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center-align items vertically */
+    justify-content: center; /* Center content horizontally */
+    margin-top: -20px;
+}
+
+.score-display p {
+    margin: 0 20px; /* Add some horizontal space around the score */
+    font-size: 300px; /* Make the score text larger */
+    text-align: center;
+}
+
+.score-display button {
+    width: 25px; /* Smaller width for buttons */
+    height: 25px; /* Smaller height for buttons */
+    font-size: 16px; /* Adjust font size inside buttons if needed */
+    cursor: pointer;
+    border: none; /* Optional: remove border */
+    background-color: #f0f0f0; /* Optional: background color for buttons */
+    border-radius: 5px; /* Optional: rounded corners for buttons */
+}
+/* Additional info sections */
+.additional-info {
+    display: flex; /* Aligns children (foul, disarmed, win) in a row */
+    align-items: center;
+    position: relative;
+}
+
+.additional-info > div {
+    flex: 1; /* Gives each child (foul, disarmed, win) an equal amount of space */
+    align-items: center;
+}
+
+.foul {
+    display: flex;
+    align-items: center;
+}
+
+.team button {
+    background-color: transparent;
+    font-size: 40px;
+    border: none;
+    color: #0056b3;
+}
+
+.team button:hover {
+    color: #EE5E4B;
+}
+
+.disarmed {
+    display: flex;
+    align-items: center;
+}
+
+.win {
+    display: flex;
+    align-items: center;
+}
+
+.additional-info p {
+    margin: 0 10px; /* Add some horizontal space around the score */
+    font-size: 80px; /* Make the score text larger */
+    align-items: center;
+}
+
+.additional-info h2 {
+    margin-right: 10px;
+    font-size: 30px;
+}
+
+
+/* Middle section */
+.middle-section {
+    text-align: center; 
+    justify-items: center;
+    width: 200px;
+    margin: auto;
+    margin-top: -350px;
+    padding: 10px;
+}
+
+/* Styles for the teams for demonstration */
+
+.time, .round {
+    text-align: center;
+}
+
+.time-buttons, .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adds space between buttons */
+    margin-top: 5px;
+}
+
+.round {
+    text-align: center; /* Centers the text of direct child elements, like your <h2> */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    background-color: #D9D9D9;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 5px;
+    width: 100px;
+    border: solid 1px black;
+}
+
+.round-score {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align items in the center vertically */
+    justify-content: center; /* Center the content horizontally */
+}
+
+
+.round-score p {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.time {
+    text-align: center; /* Centers the text of direct child elements, like your <h2> */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    background-color: #D9D9D9;
+    margin: 0 auto;
+    padding: 3px;
+    width: 140px;
+    margin-bottom: 40px;
+    border: solid 1px black;
+}
+/* Responsive styling */
+@media screen and (max-width: 600px) {
+    .team {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .time, .round {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-top: 20px;
+    }
+}
+
+h1 {
+    font-size: 23px;
+    padding-top: 100px;
+    margin: 9 auto;
+    text-align: center;
+}
+
+h3 {
+    font-size: 15px;
+    padding: 10px;
+    margin: 0 auto;
+    text-align: center;
+    color: #000000;
+}
+
+.out-btn {
+    margin-top: 10px;
+    margin-right: 100px;
+    display: flex;
+    float: right;
+    font-size: 20px;
+}
+
+/* styles.css */
+
+/* Reset default margin and padding */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+table, th, td {
+    border: 1px solid #000000;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #ffff;
+}
+
+td {
+    background-color: #ffffff78;
+}
+
+tr:nth-child(even) {
+    background-color: #74747488;
+}
+
+.edit-btn {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000000;
+ }
+
+ .edit-btn:hover {
+    background-color: #f46956;
+    color: #ffff;
+ }
+
+ .add-btn {
+    background-color: #f46956;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #ffff;
+    font-size: 12px;
+ }
+
+ .add-btn:hover {
+    background-color: #fff;
+    color: #000000;
+ }
+/* Style for the search bar */
+.search-container {
+    margin-left: 200px;
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    margin-top: 80px; /* Optional: Add some space below the search bar */
+    margin-bottom: -50px;
+}
+
+.search-bar {
+    padding: 10px;
+    width: 80%; /* Adjust width as needed */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-button {
+    padding: 8px 12px;
+    margin-left: 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.school-year {
+    color: #000000;
+    text-decoration: none;
+}
+
+.school-year:hover {
+    color: #fff;
+    font-size: 15px;
+}
+

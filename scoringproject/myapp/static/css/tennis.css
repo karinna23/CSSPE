@@ -1,0 +1,698 @@
+body {
+    background-image: url('/static/img/log.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fix the background image */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.navbar {
+    background-color: #ca4f4dcd;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    font-weight: bold;
+    position: fixed;
+    margin: 0;
+    width: 100%; /* Make the navbar full width */
+    top: 0; /* Stick the navbar to the top */
+    z-index: 1000; /* Ensure the navbar is on top of other elements */
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sports-buttons-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full-screen height */
+}
+
+
+.logo img {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 20px;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.nav-links ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.nav-links ul li a {
+    color: #0b0b0b;
+    text-decoration: none;
+}
+
+.sidebar {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 180px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #D9D9D9;
+    box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 8px;
+    padding-top: 50px;
+}
+
+.sidebar h5 {
+    font-size: 12px;
+    color: #000000;
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+.sidebar ul {
+    font-size: 11px;
+    list-style-type: none;
+    padding: 0;
+    margin: -5px;
+}
+
+.sidebar ul li {
+    padding: 5px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgb(185, 185, 185);
+}
+
+/* Page content */
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* arnis/static/arnis/styles.css */
+
+/* Container */
+    .container {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        background-color: #74747488;
+        margin-left: 250px;
+        width: 80%;
+        padding: 10px; /* Remove padding */
+        border-radius: 20px;
+        height: auto;
+        text-align: center;
+        box-sizing: border-box;
+        position: relative;
+        justify-content: space-around; /* This will space out the children (team1, middle-section, team2) */
+    }
+
+
+/* Input fields */
+.input-fields {
+    margin-bottom: -10px;
+    display: flex;
+    width: 40%;
+    margin: 0 auto;    
+    align-items: center;
+    color: #000000;
+    padding: 10px;
+
+}
+
+.input-fields label {
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.input-fields select {
+    border: none;
+    background-color: #ffffff;
+    padding: 3px;
+    font-size: 15px;
+    border: solid black 2px;
+}
+
+.input-fields span{
+    width: 100%;
+    display: flex;
+    border: none;
+    background-color: #ffffff;
+    padding: 10px;
+    font-size: 12px;
+    border: solid black 2px;
+}
+
+.school-year{
+    background-color: #ffffff;
+    padding: 3px;
+    margin: 5px;
+    border: none;
+    font-size: 15px;
+    width: 200px;
+    text-align: center;
+    border: solid black 2px;
+}
+
+.info {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+}
+
+.player1-team h3 {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    background-color: #EE5E4B;
+    padding: 10px;
+}
+
+.player2-team h3 {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    background-color: #5AA4FB;
+    padding: 10px;
+}
+
+.player-input { 
+    margin: 0 auto;   
+    width: 365px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
+.input-group {
+    display: flex;
+    align-items: center; /* Align label and input vertically */
+}
+
+.input-group label{
+    font-size: 15px;
+    font-weight: bold;
+    width: 120px;
+    word-wrap: nowrap;
+    margin-right: 5px;
+}
+
+.input-group select{
+    width: 100%;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    border: none;
+    background-color: #ffffff;
+    padding: 3px;
+    font-size: 15px;
+    border: solid black 2px;
+
+}
+
+.input-group span{
+    width: 80%;
+    margin-bottom: 3px;
+    border: none;
+    background-color: #ffffff;
+    padding: 10px;
+    font-size: 10px;
+    border: solid black 2px;
+
+}
+
+/* Team section */
+.team {
+    margin-top: -10px;
+    display: inline-block;
+    width: 45%;
+}
+
+.team h2 {
+    margin-bottom: 10px;
+}
+
+.score-display {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center-align items vertically */
+    justify-content: center; /* Center content horizontally */
+    margin-top: -10px;
+
+}
+
+.score-display p {
+    margin: 0 10px; /* Add some horizontal space around the score */
+    font-size: 300px; /* Make the score text larger */
+    text-align: center;
+    padding: 0;
+}
+
+/* Additional info sections */
+.additional-info {
+    display: flex; /* Aligns children (foul, disarmed, win) in a row */
+    align-items: center;
+    position: relative;
+    border: solid 1px white;
+}
+
+.additional-info > div {
+    flex: 1; /* Gives each child (foul, disarmed, win) an equal amount of space */
+    align-items: center;
+}
+
+.foul {
+    display: flex;
+    align-items: center;
+}
+
+.team button {
+    background-color: transparent;
+    font-size: 40px;
+    border: none;
+    color: #0056b3;
+}
+
+.team button:hover {
+    color: #EE5E4B;
+}
+
+.disarmed {
+    display: flex;
+    align-items: center;
+}
+
+.win {
+    display: flex;
+    align-items: center;
+}
+
+.additional-info p {
+    font-size: 50px; /* Make the score text larger */
+    margin-top: -10px;
+    align-items: center;
+    border: solid 1px white;
+    padding: -10px;
+    margin-bottom: 0px;
+}
+
+.additional-info h2 {
+    margin-top: 0px;
+    border: solid 1px white;
+    font-size: 15px;
+    padding: 5px;
+}
+
+
+/* Middle section */
+.middle-section {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: absolute;
+    top: 320px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999; /* Ensure it's above other elements */
+}
+
+.player-list {
+    position: relative;
+    padding-bottom: 0px;
+}
+/* Styles for the teams for demonstration */
+
+.time, .set {
+    text-align: center;
+}
+
+.middle-section .time-buttons, .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adds space between buttons */
+    margin-top: 5px;
+}
+
+.time-buttons, #play-btn, #stop-btn, #pause-btn {
+    font-size: 10px;
+}
+
+.score-display #player1-increase-btn, #player1-disarmed-increase-btn, #player1-foul-increase-btn, #player2-increase-btn, #player2-disarmed-increase-btn, #player2-foul-increase-btn {
+    color: white;
+    background-color: green;
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.score-display #player1-decrease-btn, #player1-disarmed-decrease-btn, #player1-foul-decrease-btn, #player2-decrease-btn, #player2-disarmed-decrease-btn, #player2-foul-decrease-btn {
+    color: white;
+    background-color: #c80000;
+    border-radius: 10px;
+    font-size: 27px;
+}
+
+.score-display #player1-increase-btn:hover, #player1-disarmed-increase-btn:hover, #player1-foul-increase-btn:hover, #player2-increase-btn:hover, #player2-disarmed-increase-btn:hover, #player2-foul-increase-btn:hover {
+    background-color: #2ec600;
+}
+
+.score-display #player1-decrease-btn:hover, #player1-disarmed-decrease-btn:hover, #player2-foul-decrease-btn:hover, #player2-decrease-btn:hover, #player2-disarmed-decrease-btn:hover, #player2-foul-decrease-btn:hover {
+    background-color: #ff1b1b;
+}
+
+.set1 {
+    text-align: center; /* Centers the text of direct child elements, like your <h2> */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    background-color: #D9D9D9;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 5px;
+    width: 100px;
+    border: solid 1px black;
+}
+
+
+.set-score1 {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align items in the center vertically */
+    justify-content: center; /* Center the content horizontally */
+}
+
+.icon {
+    width: 24px; /* Set the size of the icon */
+    height: 24px; /* Set the size of the icon */
+}
+
+img {
+    transition: filter 0.3s; /* Transition effect for filter */
+}
+
+li:hover img {
+    filter: invert(1); /* Invert colors on hover */
+}
+
+.tooltip-text {
+    visibility: hidden; /* Hide tooltip by default */
+    width: 70px; /* Width of tooltip */
+    background-color: rgba(0, 0, 0, 0.314); /* Background color of tooltip */
+    color: #fff; /* Text color */
+    text-align: center; /* Center text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 3px; /* Padding */
+    font-size: 8px;
+    position: absolute; /* Position tooltip */
+    z-index: 1; /* Keep tooltip above other content */
+    top: 110%; /* Position above the icon */
+    right: 10px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s; /* Fade effect */
+}
+
+li:hover .tooltip-text {
+    visibility: visible; /* Show tooltip on hover */
+    opacity: 1; /* Make it visible */
+}
+
+
+.set-score1 p {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.set1 #set-increase-btn1 {
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.set1 #set-decrease-btn1 {
+    background-color: #c80000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.set1 #set-increase-btn1:hover {
+    background-color: #2ec600;
+}
+
+.set1 #set-decrease-btn1:hover {
+    background-color: #ff1b1b;
+}
+
+
+.time1 {
+    text-align: center; /* Centers the text of direct child elements, like your <h2> */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    background-color: #D9D9D9;
+    margin: 0 auto;
+    padding: 3px;
+    width: 140px;
+    margin-bottom: 10px;
+    border: solid 1px black;
+}
+
+.time1 h2 {
+    margin: 7px;
+}
+
+.time1 #time-display1 {
+    font-size: 30px;
+    margin: 5px;
+}
+
+.time2 {
+    text-align: center; /* Centers the text of direct child elements, like your <h2> */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if needed */
+    background-color: #D9D9D9;
+    margin: 0 auto;
+    padding: 3px;
+    width: 140px;
+    margin-bottom: 40px;
+    border: solid 1px black;
+}
+
+.time2 h2 {
+    margin: 7px;
+}
+
+.time2 #time-display2 {
+    font-size: 30px;
+    margin: 5px;
+}
+
+
+.reset-button1 {
+    background-color: #df1a00;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 70px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-set-btn1 {
+    background-color: #0d00c6;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 100px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-set-btn1:hover {
+    background-color: #4b3eff;
+}
+
+.save-match-btn1 {
+    background-color: #2ec600;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 100px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-match-btn1:hover {
+    background-color: #4fd626;
+}
+.reset-button1:hover {
+    background-color: #ff3f3f;
+}
+
+.reset-button2 {
+    background-color: #df1a00;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 70px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-set-btn2 {
+    background-color: #0d00c6;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 100px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-set-btn2:hover {
+    background-color: #4b3eff;
+}
+
+.save-match-btn2 {
+    background-color: #2ec600;
+    color: #ffffff;
+    border: none;
+    padding: 5px;
+    width: 100px;
+    margin-right: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.save-match-btn2:hover {
+    background-color: #4fd626;
+}
+.reset-button2:hover {
+    background-color: #ff3f3f;
+}
+
+/* Responsive styling */
+@media screen and (max-width: 600px) {
+    .team {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .time, .round {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-top: 20px;
+    }
+}
+
+h1 {
+    font-size: 23px;
+    padding-top: 55px;
+    margin-left: 200px;
+    text-align: center;
+}
+
+.out-btn {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-right: 100px;
+    display: flex;
+    float: right;
+    font-size: 20px;
+}
+
+/* styles.css */
+
+/* Reset default margin and padding */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #000000;
+}
+
+th, td {
+    position: relative;
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #ffff;
+}
+
+.player-list td {
+    background-color: #ffffff78;
+}
+
+tr:nth-child(even) {
+    background-color: #74747488;
+}
+
+/* Inside styles.css */
+
+/* Style for the search bar */
+.search-container {
+    margin-left: 200px;
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    margin-top: 80px; /* Optional: Add some space below the search bar */
+    margin-bottom: -50px;
+}
+
+.search-bar {
+    padding: 10px;
+    width: 80%; /* Adjust width as needed */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-button {
+    padding: 8px 12px;
+    margin-left: 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+

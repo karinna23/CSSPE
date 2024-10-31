@@ -1,0 +1,156 @@
+body {
+    background-image: url('/static/img/log.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Fix the background image */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+.icon {
+    width: 24px; /* Set the size of the icon */
+    height: 24px; /* Set the size of the icon */
+}
+
+/* Styles for floating messages */
+.floating-messages {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    padding: 10px;
+}
+
+.message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    animation: fade-in 0.5s ease-in-out;
+}
+
+.message.error {
+    background-color: #ca4f4d8b; /* Red for errors */
+}
+
+.message.success {
+    background-color: #2ecc71; /* Green for success */
+}
+
+/* Fade-in animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+img {
+    transition: filter 0.3s; /* Transition effect for filter */
+}
+
+li:hover img {
+    filter: invert(1); /* Invert colors on hover */
+}
+
+.tooltip-text {
+    visibility: hidden; /* Hide tooltip by default */
+    width: 70px; /* Width of tooltip */
+    background-color: rgba(0, 0, 0, 0.314); /* Background color of tooltip */
+    color: #fff; /* Text color */
+    text-align: center; /* Center text */
+    border-radius: 5px; /* Rounded corners */
+    padding: 3px; /* Padding */
+    font-size: 8px;
+    position: absolute; /* Position tooltip */
+    z-index: 1; /* Keep tooltip above other content */
+    top: 110%; /* Position above the icon */
+    right: 10px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s; /* Fade effect */
+}
+
+li:hover .tooltip-text {
+    visibility: visible; /* Show tooltip on hover */
+    opacity: 1; /* Make it visible */
+}
+
+.navbar {
+    background-color: #ca4f4dcd;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    font-weight: bold;
+    margin-left: -10px;
+    position: fixed; /* Add position: fixed */
+    width: 100%; /* Make the navbar full width */
+    top: 0; /* Stick the navbar to the top */
+    z-index: 1000; /* Ensure the navbar is on top of other elements */
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.logo img {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 20px;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin-right: 20px;
+    padding: 0;
+}
+
+.nav-links ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.nav-links ul li a {
+    color: #0b0b0b;
+    text-decoration: none;
+}
+
+h1 {
+    margin-top: 90px;
+    padding-left: 20px;
+    margin-bottom: 50px;
+}
+
+.sports-buttons {
+    margin-top: 60px; /* Adjust spacing from navbar */
+    text-align: center;    
+    width: 80%;
+    margin: 0 auto;
+}
+
+.sports-buttons a {
+    display: block;
+    position: relative;
+    padding: 15px 20px;
+    font-size: 80px;
+    background-color: #919191b7;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
+    letter-spacing: 5px;
+
+}
+
+.sports-buttons a:hover {
+    background-color: #919191ef;
+}
