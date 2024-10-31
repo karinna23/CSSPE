@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/anyo_view.css' %}">
+    <title>ARNIS ANYO/FORM DETAILS</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <span>{{ username|upper  }}</span> <!-- Display Username -->
+            </li>
+            <li>
+                <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body>
+    <h1>Anyo/Form {{form.formID}} Details</h1>
+        <div class="container">
+                <div class="form-section">
+                    <div class="match-info">
+                    <div class="columns">
+                    <div class="column">
+                    <label for="form_type">Form:</label><span id="form-type" name="form_type">{{form.form_type}}</span>
+                    </div>
+                    <div class="column">
+                    <label for="venue">Venue:</label><span id="venue" name="venue">{{form.venue}}</span>
+                    </div>
+                    <div class="column">
+                    <label for="date">Date:</label><span id="date" name="date">{{form.date}}</span>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <label for="division">Division:</label><span id="division" name="divison">{{form.division}}</span>
+                    </div>
+                    
+                    <div class="column">
+                        <label for="category">Category:</label><span id="category" name="category">{{form.category}}</span>
+                    </div>                
+                    <div class="column">
+                    <label for="form_no">Form No.:</label><span id="form-no" name="form_no">{{form.form_no}}</span>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                    <label for="preference">Preference:</label><span id="preference" name="preference">{{form.preference}}</span>
+                </div>
+                <div class="column">
+                    <label for="school_year">School Year:</label><span id="school-years" name="school_year">{{form.yearID}}</span>
+                </div>
+                </div> 
+            </div>
+                    <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+                    <table id="score-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Player Name</th> <!-- This header now spans 2 rows -->
+                                <th rowspan="2">Judge 1</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Judge 2</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Judge 3</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Judge 4</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Judge 5</th> <!-- Spanning 2 rows -->
+                                <th colspan="4">Violations</th> <!-- This header spans 4 columns -->
+                                <th rowspan="2">Time</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Total Score</th> <!-- Spanning 2 rows -->
+                                <th rowspan="2">Rank</th> <!-- Spanning 2 rows -->
+                            </tr>
+                            <tr>
+                                <th>Time: -0.5</th>
+                                <th>Outside: -0.1</th>
+                                <th>Lost Control: -1.0</th>
+                                <th>Other: -1.0</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-table-body">
+                            {% for player in players %}
+                                <tr>
+                                    <td>{{ player.playerID }}</td>
+                                    <td>{{ player.judgeScores1 }}</td>
+                                    <td>{{ player.judgeScores2 }}</td>
+                                    <td>{{ player.judgeScores3 }}</td>
+                                    <td>{{ player.judgeScores4 }}</td>
+                                    <td>{{ player.judgeScores5 }}</td>
+                                    <td>{{ player.time }}</td>
+                                    <td>{{ player.outside }}</td>
+                                    <td>{{ player.lost_control }}</td>
+                                    <td>{{ player.other }}</td>
+                                    <td>{{ player.time_consumed }}</td>
+                                    <td>{{ player.total_score }}</td>
+                                    <td>{{ player.rank }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="13">No players found</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>                
+                <div class="coordinator">
+                <div class="coordinators">
+                <label for="tabulator">Tabulator:</label><span id="tabulator" name="tabulator">{{ form.tabulator }}</span>
+                </div>
+                    <div class="coordinators">
+                    <label for="timer">Timer:</label><span id="timer" name="timer">{{ form.timer }}</span>
+                    </div>
+                    <div class="coordinators">
+                    <label for="manage">Arnis Tournament Manager:</label><span id="manager" name="manager">{{ form.manager }}</span>
+                </div>
+                </div>
+        </div>
+    <script>
+        </script>                 
+</body>
+</html>

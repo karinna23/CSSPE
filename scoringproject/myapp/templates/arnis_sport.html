@@ -1,0 +1,40 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARNIS</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/sports.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</header>
+<main>
+    <h1>PLEASE CHOOSE:</h1>
+    <div class="sports-buttons">
+        <a href="/labanan_auth">ARNIS LABANAN</a>
+        <a href="/anyo_auth">ARNIS ANYO</a>
+    </div>
+</main>
+</body>
+</html>

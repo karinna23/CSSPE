@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Players</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .btn-custom {
+            background-color: #ca4f4d;
+            color: white;
+            font-weight: 500;
+        }
+        .btn-custom:hover {
+            background-color: #b44444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Select Players from Previous Years</h2>
+
+        {% if is_admin %}
+        <form method="get">
+            <div class="mb-3">
+                <label for="previous_year" class="form-label">Select Previous School Year:</label>
+                <select name="previous_year" id="previous_year" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- Select Year --</option>
+                    {% for year in all_school_years %}
+                        <option value="{{ year.pk }}"  {% if selected_year_id|stringformat:"s" == year.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ year.start_year }}-{{year.end_year}}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <!-- Display players from the selected previous year -->
+        {% if players_from_previous_year %}
+        <form method="post">
+            {% csrf_token %}
+            <h4>Available Players:</h4>
+            <ul class="list-group mb-3">
+                {% for player in players_from_previous_year %}
+                    <li class="list-group-item">
+                        <input type="checkbox" name="selected_players" value="{{ player.pk }}" />
+                        {{ player.player_name }} ({{ player.collegeID.college_name }})
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Button to submit selected players -->
+            <button type="submit" class="btn btn-custom">Add Selected Players</button>
+        </form>
+        {% else %}
+            <p class="text-center mt-4">No players available for the selected year.</p>
+        {% endif %}
+        {% endif %}
+
+
+        <!-- Always display form to add new players -->
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <h4>Add New Player:</h4>
+            <div class="mb-3">
+                <label for="new_player_name" class="form-label">Player Name:</label>
+                <input type="text" name="new_player_name" id="new_player_name" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="new_college_id" class="form-label">Select College:</label>
+                <select name="new_college_id" id="new_college_id" class="form-select" required>
+                    <option value="">-- Select College --</option>
+                    {% for college in colleges %}
+                        <option value="{{ college.pk }}">{{ college.college_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-custom btn-lg">Save New Player</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

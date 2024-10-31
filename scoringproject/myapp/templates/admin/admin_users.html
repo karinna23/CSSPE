@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_history.css' %}">
+    <title>CSSPE USERS</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <span>{{ username|upper  }}</span> <!-- Display Username -->
+            </li>
+            <li>
+                <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body> 
+    <div class="search-container">
+        <input type="text" class="search-bar" id="search-input" placeholder="Search...">
+    </div>    
+<h1>Users</h1>
+<div class= "container">
+<table border="1" id="history-table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Sport</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.sport }}</td>
+            <td>{{ user.email_address }}</td>
+            <td class="action-buttons">
+                <a href="{% url 'myapp:admin_view_user' user.userID %}">
+                    <button class="btn view-btn">View</button>
+                </a>
+                <a href="{% url 'myapp:admin_edit_user' user.userID %}">
+                    <button class="btn edit-btn">Edit</button>
+                </a>
+                <a href="{% url 'myapp:admin_delete_user' user.userID %}" 
+                   onclick="return confirm('Are you sure you want to delete this user?');">
+                    <button class="btn delete-btn">Delete</button>
+                </a>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="add-button-container">
+    <a href="{% url 'myapp:admin_add_user' %}">
+        <button class="btn view-btn">Add New User</button>
+    </a>
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+    
+        // Function to filter the rows based on the search input
+        function filterRows() {
+            const searchText = searchInput.value.toLowerCase();
+            const tables = document.querySelectorAll('.container table');
+    
+            tables.forEach(table => {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let matchFound = false;
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText) || searchText === '') {
+                            matchFound = true;
+                        }
+                    });
+                    row.style.display = matchFound ? 'table-row' : 'none';
+                });
+            });
+        }
+    
+        // Initial filtering when the page loads
+        filterRows();
+    
+        // Add event listener for input on the search bar
+        searchInput.addEventListener('input', filterRows);
+    });
+</script>
+</body>
+</html>

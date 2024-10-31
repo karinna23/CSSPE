@@ -1,0 +1,251 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/volleyball_display.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <title>VOLLEYBALL SCORE DISPLAY</title>
+</head>
+<body>    
+    <div class="headline">    
+    <img src="{% static 'img/csspe.png' %}" alt="Logo">  
+    <div class="headline-1">      
+    <h1>VOLLEYBALL SCOREBOARD</h1>
+    <h4>Western Mindanao State University</h4>
+    <h4>College of Sport Science and Physical Education</h4>
+    <div class="input-fields">
+            <div class="info-field">
+                <label>Category: </label>
+                <span id="category">N/A</span>
+            </div>
+        </div>    
+    </div>
+    <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="container">
+        <div class="container-1">
+        <div class="team home-team">
+            <div class="team-info">
+                <div class="info-field">
+                    <label>Team Name: </label>
+                    <span id="home-team-name">N/A</span>
+                </div>
+            </div>
+            <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+            <div class="score-info">
+                <div class="info-field">
+                    
+                    <div class="score-display">
+                    <span id="display-home-score">0</span>
+                    </div>
+                </div>   
+                    <div class="timeout-used">
+                        <label>Timeout Used:</label>
+                        <span id="home-timeout-used">0</span>
+                    </div>                 
+                <div class="additional-info">
+                <div class="info-field">
+                    <label>SET 3</label>
+                    <span id="home-set3">0</span>
+                </div>
+                <div class="info-field">
+                    <label>SET 2</label>
+                    <span id="home-set2">0</span>
+                </div>
+                <div class="info-field">
+                    <label>SET 1</label>
+                    <span id="home-set1">0</span>
+                </div>
+            </div>
+            <div class="additional-info1">
+                <div class="info-field"  onclick="showColorPicker('home')">
+                    <span id="home-serve">HOME</span>
+                </div>
+            </div>
+            </div>
+        </div>
+    
+        <div class="team away-team">
+            <div class="team-info">
+                <div class="info-field">
+                    <label>Team Name: </label>
+                    <span id="away-team-name">N/A</span>
+                </div>
+            </div>
+            <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+            <div class="score-info">
+                <div class="info-field">
+                    <div class="score-display">                    
+                    <span id="display-away-score">0</span>
+                    </div>
+                </div>   
+                <div class="timeout-used">
+                    <label>Timeout Used:</label>
+                    <span id="away-timeout-used">0</span>
+                </div>     
+                <div class="additional-info">
+                    <div class="info-field">
+                        <label>SET 1</label>
+                        <span id="away-set1">0</span>
+                    </div>
+                    <div class="info-field">
+                        <label>SET 2</label>
+                        <span id="away-set2">0</span>
+                    </div>
+                    <div class="info-field">
+                        <label>SET 3</label>
+                        <span id="away-set3">0</span>
+                    </div>
+            </div>
+            </div>
+            <div class="additional-info1">
+                <div class="info-field"  onclick="showColorPicker('away')">
+                    <span id="away-serve">AWAY</span>
+                </div>
+        </div>
+        </div>
+        <input type="color" id="colorPicker" style="display: none;" onchange="changeBackgroundColor()">
+    </div>
+        <div class="middle-section">
+            <div class="time-info">
+                <label>Time</label>
+                <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+                <span id="time-display">00:00</span>
+            </div>
+            <div class="set-info">
+                <label>SET</label>
+                <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+                <span id="set">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to update the display from local storage
+            function updateDisplayFromLocalStorage() {
+                var data = JSON.parse(localStorage.getItem('yourDataKey'));
+    
+                // Update category
+                document.getElementById('home-team-name').textContent = data.teamNames.homeNameText;
+        
+                // Update away team name
+                document.getElementById('away-team-name').textContent = data.teamNames.awayNameText;
+        
+                // Update home team scores
+                document.getElementById('display-home-score').textContent = data.homeScores.score;
+                document.getElementById('home-set1').textContent = data.homeScores.set1;
+                document.getElementById('home-set2').textContent = data.homeScores.set2;
+                document.getElementById('home-set3').textContent = data.homeScores.set3;
+        
+                // Update away team scores
+                document.getElementById('display-away-score').textContent = data.awayScores.score;
+                document.getElementById('away-set1').textContent = data.awayScores.set1;
+                document.getElementById('away-set2').textContent = data.awayScores.set2;
+                document.getElementById('away-set3').textContent = data.awayScores.set3;
+        
+                document.getElementById('home-timeout-used').textContent = data.timeoutCounters.home;
+                document.getElementById('away-timeout-used').textContent = data.timeoutCounters.away;
+        
+                // Update time display
+                   // Update time display
+                   var seconds = parseInt(localStorage.getItem('time'), 10) || 0;
+                   // Calculate minutes and seconds
+                   var hours = Math.floor(seconds / 3600);
+                   var minutes = Math.floor((seconds % 3600) / 60);
+                   var secondsPart = seconds % 60;
+                   // Update the time display
+                   document.getElementById('time-display').textContent = hours.toString().padStart(1, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + secondsPart.toString().padStart(2, '0');        
+           
+        
+                // Update set
+                document.getElementById('set').textContent = data.setScore;
+            }
+        
+            // Initial update
+            updateDisplayFromLocalStorage();
+        
+        
+            // Interval function to update display from local storage every second
+            setInterval(updateDisplayFromLocalStorage, 1000);
+        });
+        
+    function showColorPicker(team) {
+    const colorPicker = document.getElementById('colorPicker');
+    colorPicker.setAttribute('data-team', team);
+    colorPicker.click(); // Simulate click on color picker input
+}
+
+// Function to change background color based on selected color
+function changeBackgroundColor() {
+    const colorPicker = document.getElementById('colorPicker');
+    const selectedColor = colorPicker.value;
+    const team = colorPicker.getAttribute('data-team');
+
+    const infoField = document.querySelector(`.${team}-team .additional-info1 .info-field`);
+    infoField.style.backgroundColor = selectedColor;
+}
+
+if (localStorage.getItem('homeClicked') === 'true') {
+    document.getElementById('home-serve').style['textShadow'] = '-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000';
+    console.log('Outline added to home serve element');
+}
+
+localStorage.removeItem('homeClicked');
+
+setInterval(function() {
+    if (localStorage.getItem('homeClicked') === 'true') {
+        var homeServe = document.getElementById('home-serve');
+        if (homeServe) {
+            homeServe.style.textShadow = '0 0 15px rgba(255,255,255,0.5), 0 0 25px rgba(255,255,255,0.5), 0 0 35px rgba(255,255,255,0.5), 0 0 45px rgba(255,255,255,0.5)';
+            localStorage.removeItem('homeClicked');
+
+            setTimeout(function() {
+                homeServe.style.textShadow = 'none';
+            }, 3000);
+        }
+    }
+}, 100); 
+
+if (localStorage.getItem('awayClicked') === 'true') {
+    document.getElementById('away-serve').style['textShadow'] = '-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000';
+}
+
+localStorage.removeItem('awayClicked');
+
+setInterval(function() {
+    if (localStorage.getItem('awayClicked') === 'true') {
+        // Apply text-shadow effect to the home-serve element
+        var awayServe = document.getElementById('away-serve');
+        if (awayServe) {
+            awayServe.style.textShadow = '0 0 15px rgba(255,255,255,0.5), 0 0 25px rgba(255,255,255,0.5), 0 0 35px rgba(255,255,255,0.5), 0 0 45px rgba(255,255,255,0.5)';
+            localStorage.removeItem('awayClicked');
+
+            setTimeout(function() {
+                awayServe.style.textShadow = 'none';
+            }, 3000);
+        }
+    }
+}, 100);
+
+function updateVolleyball() {
+    // Retrieve the initial data from localStorage
+    const volleyballData = JSON.parse(localStorage.getItem('volleyballData'));
+
+    // Update UI with the latest data
+    if (volleyballData) {
+
+        document.getElementById('category').textContent = volleyballData.volleyInfo.categoryText;
+    }
+}
+
+// Call the function to update UI initially and every second
+updateVolleyball();
+setInterval(updateVolleyball, 1000);
+
+</script>
+</body>
+</html>

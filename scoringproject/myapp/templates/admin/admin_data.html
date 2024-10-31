@@ -1,0 +1,111 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN DATA</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="javascript:history.back()">
+                        <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</header>  
+<div class="statistics-overview">
+    <canvas id="statsOverviewChart"></canvas>
+    <h3>Summary Counts</h3>
+    <div class="summary">
+    <ul>
+        <li><strong>Total School Years:</strong> {{ school_years.count }}</li>
+        <li><strong>Total Users:</strong> {{ total_users }}</li>
+        <li><strong>Total Colleges:</strong> {{ total_colleges }}</li>
+    </ul>
+</div>
+</div>
+
+<h1>School Years</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>School Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for school_year in school_years %}
+        <tr>
+            <td ><a href="{% url 'myapp:admin_analytics' year_id=school_year.pk %}" class="school-year">
+                {{ school_year.start_year }}-{{ school_year.end_year }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+</div>
+<script>
+    const ctx = document.getElementById('statsOverviewChart').getContext('2d');
+    const statsOverviewChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['School Years', 'Users', 'Colleges'],
+            datasets: [{
+                label: 'Total Counts',
+                data: [
+                    {{ school_years.count }},
+                    {{ total_users }},
+                    {{ total_colleges }}
+                ],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Total Counts Overview'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

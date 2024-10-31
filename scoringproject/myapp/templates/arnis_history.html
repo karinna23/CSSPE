@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/arnis_history.css' %}">
+    <title>LABANAN CONTACT SHEET</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <span>{{ username|upper  }}</span> <!-- Display Username -->
+            </li>
+            <li>
+                <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body> 
+    <div class="search-container">
+        <input type="text" class="search-bar" id="search-input" placeholder="Search...">
+    </div>    
+<h1>Labanan History</h1>
+<div class= "container">
+<table border="1" id="history-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Venue</th>
+            <th>Division</th>
+            <th>Category</th>
+            <th>Recorder</th>
+            <th>Created By</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for labanan in matches %}
+        <tr>
+            <td>{{ labanan.date }}</td>
+            <td>{{ labanan.venue }}</td>
+            <td>{{ labanan.division }}</td>
+            <td>{{ labanan.weight_category }}</td>
+            <td>{{ labanan.recorder }}</td>
+            <td>{{ labanan.user.username }}</td>
+            <td><a href="{% url 'myapp:labanan_match_view' labanan.matchID %}">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h1>Anyo/Form History</h1>
+<div class= "container">
+<table border="1" id="history-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Venue</th>
+            <th>Division</th>
+            <th>Form Type</th>
+            <th>Tabulator</th>
+            <th>Created By</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for anyo in forms %}
+        <tr>
+            <td>{{ anyo.date }}</td>
+            <td>{{ anyo.venue }}</td>
+            <td>{{ anyo.division }}</td>
+            <td>{{ anyo.form_type }}</td>
+            <td>{{ anyo.tabulator }}</td>
+            <td>{{ anyo.user.username }}</td>
+            <td><a href="{% url 'myapp:anyo_match_view' anyo.formID %}">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<h1>Labanan Match Winners</h1>
+<div class= "container">
+<table border="1" id="history-table">
+    <thead>
+        <tr>
+            <th>Match No.</th>
+            <th>Player Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for labanan in matches %}
+        <tr>
+            <td>{{ labanan.match_no }}</td>
+            <td>{{ labanan.final_winner }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<h1>Anyo/Form Match Winners</h1>
+<div class="container">
+    <table border="1" id="history-table">
+        <thead>
+            <tr>
+                <th>Match No.</th>
+                <th>Team Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for winner in winners %}
+            <tr>
+                <td>{{ winner.formID.form_no}}</td>
+                <td>{{ winner.playerID }}</td>
+                <td>{{ winner.total_score }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+    
+        // Function to filter the rows based on the search input
+        function filterRows() {
+            const searchText = searchInput.value.toLowerCase();
+            const tables = document.querySelectorAll('.container table');
+    
+            tables.forEach(table => {
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let matchFound = false;
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchText) || searchText === '') {
+                            matchFound = true;
+                        }
+                    });
+                    row.style.display = matchFound ? 'table-row' : 'none';
+                });
+            });
+        }
+    
+        // Initial filtering when the page loads
+        filterRows();
+    
+        // Add event listener for input on the search bar
+        searchInput.addEventListener('input', filterRows);
+    });
+</script>
+</body>
+</html>

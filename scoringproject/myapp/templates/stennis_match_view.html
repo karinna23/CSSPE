@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/stennis_view.css' %}">
+    <title>SINGLES TENNIS DETAILS</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <span>{{ username|upper  }}</span> <!-- Display Username -->
+            </li>
+            <li>
+                <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body>
+    <h1>Single Match {{game.matchID}} Details  </h1>
+    <div class="container">
+            <div class="form-section">
+                <div class="match-info">
+                <div class="columns">
+                <div class="column">
+                <label for="group">Group:</label><span id="group" name="group">  {{game.group}}</span>
+                </div>
+                <div class="column">
+                <label for="Stage">Stage:</label><span id="stage" name="stage"> {{game.stage}}</span>
+                </div>
+                <div class="column">
+                <label for="date">Date:</label><span id="date" name="date"> {{game.date}}</span>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <label for="category">Category:</label><span id="category" name="category"> {{game.category}}</span>
+                </div>
+                
+                <div class="column">
+                    <label for="time">Time:</label><span id="time" name="time"> {{game.time}}</span>
+                </div> 
+                <div class="column">
+                    <label for="table">Table:</label><span id="table" name="table"> {{game.table}}</span>
+                </div>                      
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <label for="match-no">Match No.:</label><span id="match-no" name="match_no"> {{game.match_no}}</span>
+                    </div>
+                    <div class="column">
+                        <label for="school-year">School Year:</label><span id="school-years" name="school_year" name="school_year"> {{game.yearID}}</span>
+                    </div>
+                </div>
+            </div> 
+                <div class="player-info">
+                <div class="team player1-team">
+                <h3>HOME</h3>
+                <div class="team-info">
+                    <div class="team-block">
+                        <label for="player1-name">Team Name:</label><span id="player1-name" name="player1_name"> {{game.player1_name}}</span>
+                    </div>
+                </div>
+                </div>
+
+                <div class="team player2-team">
+                <div class="team-info">
+                    <div class="team-block">
+                        <label for="player2-team-name">Team Name:</label><span id="player2-name" name="player2_name"> {{game.player2_name}}</span>
+                    </div>
+                </div>
+                <h3>AWAY</h3>
+                </div>
+                </div>     
+                <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+            <div class="set-section">
+                <div class="set-title" id="set-1">Set 1</div>
+                <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if first_player1 %}
+                            <div class="metric">Score: <span>{{first_player1.score}}</span>
+                                {% else %}
+                            <div class="metric">Score:<span>0</span>
+                            {% endif %}
+                           </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if second_player1 %}
+                            <div class="metric">Score: <span>{{second_player1.score}}</span>
+                                {% else %}
+                                <div class="metric">Score:<span>0</span>
+                            {% endif %}       
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="time-winner">
+                        <div class="winner">Winner: <span id="winner1" name="winner1">{{set1.winner}}</span>
+                            <input type="hidden" name="winner1" value="n/A">
+                        </div>
+                </div>
+                <div class="set-title" id="set-2">Set 2</div>
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if first_player2 %}
+                            <div class="metric">Score: <span>{{first_player2.score}}</span>
+                                {% else %}
+                            <div class="metric">Score:<span>0</span>
+                            {% endif %}
+                           </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if second_player2 %}
+                            <div class="metric">Score: <span>{{second_player2.score}}</span>
+                                {% else %}
+                                <div class="metric">Score:<span>0</span>
+                            {% endif %}       
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="time-winner">
+                        <div class="winner">Winner: <span id="winner2" name="winner2">{{set2.winner}}</span>
+                        </div>
+                </div>
+                <div class="set-title" id="set-3">Set 3</div>
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if first_player3 %}
+                            <div class="metric">Score: <span>{{first_player3.score}}</span>
+                                {% else %}
+                            <div class="metric">Score:<span>0</span>
+                            {% endif %}
+                           </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if second_player3 %}
+                            <div class="metric">Score: <span>{{second_player3.score}}</span>
+                                {% else %}
+                                <div class="metric">Score:<span>0</span>
+                            {% endif %}       
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="time-winner">
+                        <div class="winner">Winner: <span id="winner3" name="winner3">{{set3.winner}}</span>
+                            <input type="hidden" name="winner3" value="n/A">
+                        </div>
+                </div>
+                <div class="set-title" id="set-4">Set 4</div>
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if first_player4  %}
+                            <div class="metric">Score: <span>{{first_player4.score}}</span>
+                                {% else %}
+                            <div class="metric">Score:<span>0</span>
+                            {% endif %}
+                           </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if second_player4 %}
+                            <div class="metric">Score: <span>{{second_player4.score}}</span>
+                                {% else %}
+                                <div class="metric">Score:<span>0</span>
+                            {% endif %}       
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="time-winner">
+                        <div class="winner">Winner: <span id="winner4" name="winner4">{{set4.winner}}</span>
+                            <input type="hidden" name="winner4" value="n/A">
+                        </div>
+                </div>
+                <div class="set-title" id="set-5">Set 5</div>
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if first_player5 %}
+                            <div class="metric">Score: <span>{{first_player5.score}}</span>
+                                {% else %}
+                            <div class="metric">Score:<span>0</span>
+                            {% endif %}
+                           </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            {% if second_player5 %}
+                            <div class="metric">Score: <span>{{second_player5.score}}</span>
+                                {% else %}
+                                <div class="metric">Score:<span>0</span>
+                            {% endif %}       
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="time-winner">
+                        <div class="winner">Winner: <span id="winner5" name="winner5">{{set5.winner}}</span>
+                            <input type="hidden" name="winner5" value="n/A">
+                        </div>
+                </div>
+                <div class="player-title" id="timeout-used">Timeout Used:</div>
+                <div class="team-section">
+                    <div class="team-1">
+                        <div class="metrics">
+                            <div class="metric"><span id="player1-timeout-used" name="player1_timeout"> {{game.player1_timeout}}</span>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="team-1">
+                        <div class="metrics">
+                            <div class="metric"><span id="player2-timeout-used" name="player2_timeout"> {{game.player2_timeout}}</span>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="loser-winner">
+                <div class="winning">
+                    <label>Winning Team:</label><span id="winning-team" name="winning_team"> {{game.winning_team}}</span>
+                </div>                
+                <div  class="losing">
+                    <label>Losing Team:</label><span id="losing-team" name="losing_team"> {{game.losing_team}}</span>
+                </div>   
+            </div>   
+            <div class="judge">
+            <label for="judge1">Coach:</label><span id="coach1" name="coach1"> {{game.coach1}}</span>
+                
+                <label for="judge2">Coach:</label><span id="coach2" name="coach2"> {{game.coach2}}</span>
+        </div>
+            <div class="other">
+                <label for="scorer">Umpire:</label><span id="umpire" name="umpire"> {{game.umpire}}</span>
+            </div>
+    </div>
+<script>
+</script>    
+</body>
+</html>

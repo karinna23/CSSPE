@@ -1,0 +1,792 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLLEYBALL SCOREBOARD</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/volleyball.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="/#">
+                        <img src="{% static '/img/logout.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Logout</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+    <div class="sidebar">
+        <h5>Scoring Board</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/volleyball_scoreboard">Volleyball Scoreboard</a></li>
+        </ul>
+        <h5>Match Sheet</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/volleyball_sheet">Volleyball Sheet</a></li>
+        </ul>
+        <h5>Display</h5>
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+        <ul>
+            <li><a href="/volleyball_display">Volleyball Score Display</a></li>
+        </ul>
+    </div>
+</header>
+<h1>Scoring Board</h1>
+<div class="container">
+    <form method="get" action="">
+        <label for="school_year">School Year:</label>
+        <select name="school_year" onchange="this.form.submit()" class="school-year">
+            <option value="">Select a School Year</option>
+            {% for year in school_years %}
+                <option value="{{ year.YearID }}" {% if selected_year_id|stringformat:"s" == year.YearID|stringformat:"s" %}selected{% endif %}>
+                    {{ year.start_year }}-{{ year.end_year }}
+                </option>
+            {% endfor %}
+        </select>
+        <input type="hidden" id="selected-team-id1" name="selected_team_id1">
+        <input type="hidden" id="selected-team-id2" name="selected_team_id2">
+    </form>
+    
+    <div class="team home-team">
+        <div class="info home-team">
+            <h3 id="home-heading">Home</h3>
+            <div class="player-input">
+                <div class="input-group">
+                    <label for="home-team-name">Team:</label>
+                    <select id="team-selection1" class="player-input" onchange="updateTeamSelection(this)" name="team_selection1">
+                        <option value="">-- Select Team --</option>
+                        {% for team in home_teams %}
+                            <option value="{{ team.teamID }}" {% if home_team and home_team.teamID == team.teamID %}selected{% endif %}>{{ team.team_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>  
+            </div>
+        </div>
+        <div class="score-display">
+            <button id="home-decrease-btn">-</button>
+            <p id="home-score">0</p>
+            <button id="home-increase-btn">+</button>
+        </div>
+        <div class="additional-info">
+            <div class="sets">
+                <h2>Set 1</h2>
+                <p id="home-set1">0</p>
+            </div>
+            <div class="sets">
+                <h2>Set 2</h2>
+                <p id="home-set2">0</p>
+            </div>
+            <div class="sets">
+                <h2>Set 3</h2>
+                <p id="home-set3">0</p>
+            </div>
+            <div class="sets">
+                <h2>Timeout Used</h2>
+                <p id="home-timeout">0</p>
+            </div>
+        </div>
+        <div class="home player-list">
+            <h3>Players</h3>
+            <table id="home-player-score">
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Player Role</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players1 %}
+                    <tr>
+                        <td>{{ player.player_name }}</td>
+                        <td>{{ player.player_role }}</td>
+                        <td><input type="number" name="points" value="{{ player.points }}"></td>                        
+                        <td><input type="hidden" name="team" value="{{ player.teamID }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="team away-team">
+        <div class="info away-team">
+            <div class="player-input">
+                <div class="input-group">
+                    <label for="away-team-name">Team:</label>
+                    <select id="team-selection2" class="player-input" onchange="updateTeamSelection(this)" name="team_selection2">
+                        <option value="">-- Select Team --</option>
+                        {% for team in away_teams %}
+                            <option value="{{ team.teamID }}" {% if away_team and away_team.teamID == team.teamID %}selected{% endif %}>{{ team.team_name }}</option>
+                        {% endfor %}
+                    </select>  
+                </div>
+            </div>
+            <h3 id="away-heading">Away</h3>
+        </div>
+        <div class="score-display">
+            <button id="away-decrease-btn">-</button>
+            <p id="away-score">0</p>
+            <button id="away-increase-btn">+</button>
+        </div>
+        <div class="additional-info">
+            <div class="sets">
+                <h2>Timeout Used</h2>
+                <p id="away-timeout">0</p>
+            </div>
+            <div class="sets">
+                <h2>Set 3</h2>
+                <p id="away-set3">0</p>
+            </div>
+            <div class="sets">
+                <h2>Set 2</h2>
+                <p id="away-set2">0</p>
+            </div>
+            <div class="sets">
+                <h2>Set 1</h2>
+                <p id="away-set1">0</p>
+            </div>
+        </div>
+        <div class="away player-list">
+            <h3>Players</h3>
+            <table id="away-player-score">
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Player Role</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players2 %}
+                    <tr>
+                        <td>{{ player.player_name }}</td>
+                        <td>{{ player.player_role }}</td>
+                        <td><input type="number" name="points" value="{{ player.points }}"></td>
+                        <td><input type="hidden" name="team" value="{{ player.teamID }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>        
+    </div>
+    <div class="middle-section">
+        <div class="time">
+            <h2>Time</h2>
+            <div id="time-display">00:00</div>
+            <div class="time-buttons">
+                <button id="play-btn">Play</button>
+                <button id="pause-btn">Pause</button>
+                <button id="stop-btn">Stop</button>
+            </div>
+        </div>
+        <div class="set">
+            <h2>SET</h2> 
+            <div class="set-score">
+                <button id="set-decrease-btn">-</button>
+                <p id="set">0</p>
+                <button id="set-increase-btn">+</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="out-btn">
+    <button id="save-set-btn" class="save-set-btn">Save Set</button>
+    <button id="save-match-btn" class="save-match-btn">Save Match</button>    
+    <button id="reset-button" class="reset-button">Reset</button>
+</div>    
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Check if there's a selected team ID in local storage for team-selection1
+        var selectedTeamId1 = localStorage.getItem("selectedTeamId1");
+        if (selectedTeamId1) {
+            // Set the selected option in the team selection dropdown for team-selection1
+            var teamSelection1 = document.getElementById("team-selection1");
+            teamSelection1.value = selectedTeamId1;
+            // Update options of team-selection2
+            updateTeamOptions(selectedTeamId1, "team-selection2");
+        }
+        
+        // Check if there's a selected team ID in local storage for team-selection2
+        var selectedTeamId2 = localStorage.getItem("selectedTeamId2");
+        if (selectedTeamId2) {
+            // Set the selected option in the team selection dropdown for team-selection2
+            var teamSelection2 = document.getElementById("team-selection2");
+            teamSelection2.value = selectedTeamId2;
+            // Update options of team-selection1
+            updateTeamOptions(selectedTeamId2, "team-selection1");
+        }
+        
+        // Reset dropdowns when a new school year is selected
+        var schoolYearDropdown = document.getElementById("school_year");
+        schoolYearDropdown.addEventListener("change", function() {
+            var teamSelection1 = document.getElementById("team-selection1");
+            var teamSelection2 = document.getElementById("team-selection2");
+            teamSelection1.value = ""; // Reset team selection dropdown 1
+            teamSelection2.value = ""; // Reset team selection dropdown 2
+            // Reset options of both dropdowns
+            resetTeamOptions("team-selection1");
+            resetTeamOptions("team-selection2");
+        });
+    });
+    
+    function updateTeamSelection(selectElement) {
+        var selectedTeamId = selectElement.value;
+        var currentUrl = window.location.href;
+        
+        // Get the ID of the team selection dropdown
+        var teamSelectionId = selectElement.id;
+        
+        // Set the local storage key based on the team selection dropdown ID
+        var localStorageKey = teamSelectionId === "team-selection1" ? "selectedTeamId1" : "selectedTeamId2";
+        
+        localStorage.setItem(localStorageKey, selectedTeamId);
+    
+        // Update options of the other dropdown
+        var otherSelectionId = teamSelectionId === "team-selection1" ? "team-selection2" : "team-selection1";
+        updateTeamOptions(selectedTeamId, otherSelectionId);
+    
+        // Remove existing team selection parameter for both selections
+        currentUrl = removeURLParameter(currentUrl, "team-selection1");
+        currentUrl = removeURLParameter(currentUrl, "team-selection2");
+        
+        // Add selected team IDs as URL parameters for both selections
+        var newUrl = addURLParameter(currentUrl, "team-selection1", document.getElementById("team-selection1").value);
+        newUrl = addURLParameter(newUrl, "team-selection2", document.getElementById("team-selection2").value);
+        
+        // Redirect to the new URL
+        window.location.href = newUrl;
+        
+        // Submit the form
+        selectElement.form.submit();        
+    }
+    
+    function updateTeamOptions(selectedTeamId, otherSelectionId) {
+        var otherSelection = document.getElementById(otherSelectionId);
+        var options = otherSelection.querySelectorAll("option");
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === selectedTeamId) {
+                options[i].remove(); // Remove the option from the DOM
+                break; // Stop after removing the option
+            }
+        }
+    }
+    
+    function resetTeamOptions(selectionId) {
+        var selection = document.getElementById(selectionId);
+        var options = selection.querySelectorAll("option");
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === "") {
+                selection.value = ""; // Set the default option as selected
+                break; // Stop after resetting the option
+            }
+        }
+    }
+    
+    function removeURLParameter(url, parameter) {
+        // Regular expression to remove URL parameter
+        var urlParts = url.split('?');
+        if (urlParts.length >= 2) {
+            var prefix = encodeURIComponent(parameter) + '=';
+            var parts = urlParts[1].split(/[&;]/g);
+    
+            // Reverse iteration to handle duplicates
+            for (var i = parts.length; i-- > 0;) {
+                // Remove parameter if found
+                if (parts[i].lastIndexOf(prefix, 0) !== -1) {
+                    parts.splice(i, 1);
+                }
+            }
+    
+            // Join the parts back together
+            return urlParts[0] + (parts.length > 0 ? '?' + parts.join('&') : '');
+        }
+        return url;
+    }
+    
+    function addURLParameter(url, parameter, value) {
+        // Encode the parameter and value
+        var encodedParam = encodeURIComponent(parameter);
+        var encodedValue = encodeURIComponent(value);
+    
+        // Append the parameter and value to the URL
+        if (url.indexOf('?') !== -1) {
+            // If URL already has parameters, append using '&'
+            return url + '&' + encodedParam + '=' + encodedValue;
+        } else {
+            // Otherwise, append using '?'
+            return url + '?' + encodedParam + '=' + encodedValue;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var homeTimeoutParagraph = document.getElementById("home-timeout");
+        var awayTimeoutParagraph = document.getElementById("away-timeout");
+        
+        homeTimeoutParagraph.addEventListener("click", function() {
+            updateTimeoutCounter("home");
+        });
+        
+        awayTimeoutParagraph.addEventListener("click", function() {
+            updateTimeoutCounter("away");
+        }); 
+});
+
+    
+    function updateTimeoutCounter(team) {
+        // Get the timeout usage counter element based on the team
+        var timeoutCounterElement;
+        if (team === "home") {
+            timeoutCounterElement = document.getElementById("home-timeout");
+        } else if (team === "away") {
+            timeoutCounterElement = document.getElementById("away-timeout");
+        } else {
+            return; // Exit function if invalid team is provided
+        }
+        
+        // Get the current usage count
+        var currentCount = parseInt(timeoutCounterElement.textContent);
+        
+        // Increment the count by 1, if it's less than or equal to 2
+        if (currentCount < 2) {
+            currentCount++;
+            timeoutCounterElement.textContent = currentCount;
+            
+            // Open Moodle in a new window
+            window.open('/timer', '_blank', 'width=350,height=250,toolbar=no,scrollbars=no,resizable=no,max-width=600,max-height=400,min-width=600,min-height=400 background-color=red,top=' + ((window.innerHeight - 400) / 2) + ',left=' + ((window.innerWidth - 600) / 2));
+        }
+    }    
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        var setScore = document.getElementById("set");
+        var setIncreaseBtn = document.getElementById("set-increase-btn");
+        var setDecreaseBtn = document.getElementById("set-decrease-btn");
+        
+        setIncreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(setScore.textContent);
+            setScore.textContent = currentScore + 1;
+            console.log("Current Set Score:", currentScore + 1);
+        });
+        
+        setDecreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(setScore.textContent);
+            if (currentScore > 0) {
+                setScore.textContent = currentScore - 1;
+                console.log("Current Set Score:", currentScore - 1);
+            }
+        });
+        
+        // Button functionality for Home score
+        var homeScore = document.getElementById("home-score");
+        var homeIncreaseBtn = document.getElementById("home-increase-btn");
+        var homeDecreaseBtn = document.getElementById("home-decrease-btn");
+        
+        homeIncreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(homeScore.textContent);
+            homeScore.textContent = currentScore + 1;
+            console.log("Home Score:", currentScore + 1);
+        });
+        
+        homeDecreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(homeScore.textContent);
+            if (currentScore > 0) {
+                homeScore.textContent = currentScore - 1;
+                console.log("Home Score:", currentScore - 1)
+            }
+        });
+        
+        // Button functionality for Away score
+        var awayScore = document.getElementById("away-score");
+        var awayIncreaseBtn = document.getElementById("away-increase-btn");
+        var awayDecreaseBtn = document.getElementById("away-decrease-btn");
+        
+        awayIncreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(awayScore.textContent);
+            awayScore.textContent = currentScore + 1;
+            console.log("Away Score:", currentScore + 1);
+        });
+        
+        awayDecreaseBtn.addEventListener("click", function() {
+            var currentScore = parseInt(awayScore.textContent);
+            if (currentScore > 0) {
+                awayScore.textContent = currentScore - 1;
+                console.log("Away Score:", currentScore - 1);
+            }
+        }); 
+    
+        document.getElementById("save-set-btn").addEventListener("click", function() {
+            const currentSetElement = document.getElementById("set");
+            if (!currentSetElement) {
+                console.error("Current set element not found");
+                return;
+            }
+            
+            const currentSet = parseInt(currentSetElement.textContent);
+            console.log("Current Set:", currentSet);
+            
+            const homeScoreElement = document.getElementById("home-score");
+            const awayScoreElement = document.getElementById("away-score");
+            
+            if (!homeScoreElement || !awayScoreElement) {
+                console.error("Home or away score elements not found");
+                return;
+            }
+            
+            const homeScoreValue = parseInt(homeScoreElement.textContent);
+            const awayScoreValue = parseInt(awayScoreElement.textContent);
+    
+            const homeSetScoreElement = document.getElementById(`home-set${currentSet}`);
+            const awaySetScoreElement = document.getElementById(`away-set${currentSet}`);
+            
+            if (!homeSetScoreElement || !awaySetScoreElement) {
+                console.error("Home or away set score elements not found for set", currentSet);
+                return;
+            }
+            
+            const currentHomeSetScore = parseInt(homeSetScoreElement.textContent);
+            const currentAwaySetScore = parseInt(awaySetScoreElement.textContent);
+        
+            homeSetScoreElement.textContent = currentHomeSetScore + homeScoreValue;
+            awaySetScoreElement.textContent = currentAwaySetScore + awayScoreValue;
+        
+            console.log("Saved Set:", currentSet);
+            console.log("Home Set Score:", currentHomeSetScore + homeScoreValue);
+            console.log("Away Set Score:", currentAwaySetScore + awayScoreValue);
+            
+            // Reset main scores to zero
+            homeScoreElement.textContent = "0";
+            awayScoreElement.textContent = "0";
+        });    
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var playBtn = document.getElementById("play-btn");
+        var pauseBtn = document.getElementById("pause-btn");
+        var stopBtn = document.getElementById("stop-btn");
+        
+        playBtn.addEventListener("click", startTimer);
+        pauseBtn.addEventListener("click", stopTimer);
+        stopBtn.addEventListener("click", resetTimer);
+        
+        let timer;
+        let seconds = parseInt(localStorage.getItem('time'), 10) || 0;
+        var PlaySoundSrc = "{% static 'audio/play&pause.wav' %}";
+        var alertSoundSrc = "{% static 'audio/alert.mp3' %}";
+        var alertSound = new Audio(alertSoundSrc); // Creating the Audio object
+        var playSound = new Audio(PlaySoundSrc); // Creating the Audio object
+
+        function displayTime() {
+            const hours = Math.floor(seconds / 3600).toString().padStart(1, '0');  // Calculate hours
+            const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');  // Calculate remaining minutes
+            const secs = (seconds % 60).toString().padStart(2, '0');  // Calculate remaining seconds
+        
+            document.getElementById('time-display').textContent = `${hours}:${minutes}:${secs}`;
+        }
+        
+        function startTimer() {
+            playSound.play();
+            if (!timer) {
+                timer = setInterval(function () {
+                    seconds++;
+                    displayTime();
+                    localStorage.setItem('time', seconds);
+                }, 1000);
+            }
+        }
+        
+        function stopTimer() {
+            playSound.play();
+            clearInterval(timer);
+            timer = null;
+        }
+        
+        function resetTimer() {
+            alertSound.play();
+            stopTimer();
+            seconds = 0;
+            displayTime();
+            localStorage.setItem('time', seconds); // Ensure the reset time is saved to localStorage
+        }
+
+// Define team names
+        var teamNames = {
+            "homeName": document.getElementById("team-selection1").options[document.getElementById("team-selection1").selectedIndex].value,
+            "awayName": document.getElementById("team-selection2").options[document.getElementById("team-selection2").selectedIndex].value,
+            "homeNameText": document.getElementById("team-selection1").options[document.getElementById("team-selection1").selectedIndex].textContent,
+            "awayNameText": document.getElementById("team-selection2").options[document.getElementById("team-selection2").selectedIndex].textContent
+        };
+
+        function updateLocalStorage() {
+            var timeoutCounters = {
+                "home": parseInt(document.getElementById("home-timeout").textContent),
+                "away": parseInt(document.getElementById("away-timeout").textContent)
+            };
+
+            var setScore = parseInt(document.getElementById("set").textContent);
+
+            var homeScores = {
+                "score": parseInt(document.getElementById("home-score").textContent),
+                "set1": parseInt(document.getElementById("home-set1").textContent),
+                "set2": parseInt(document.getElementById("home-set2").textContent),
+                "set3": parseInt(document.getElementById("home-set3").textContent)
+            };
+
+            var awayScores = {
+                "score": parseInt(document.getElementById("away-score").textContent),
+                "set1": parseInt(document.getElementById("away-set1").textContent),
+                "set2": parseInt(document.getElementById("away-set2").textContent),
+                "set3": parseInt(document.getElementById("away-set3").textContent)
+            };
+
+            var data = {
+                "teamNames": teamNames,
+                "timeoutCounters": timeoutCounters,
+                "setScore": setScore,
+                "homeScores": homeScores,
+                "awayScores": awayScores,
+            };
+
+            localStorage.setItem('yourDataKey', JSON.stringify(data));
+        }
+
+        function loadStaticData() {
+            const staticDataIds = [
+                'team-selection1',
+                'team-selection2',
+            ];
+
+            staticDataIds.forEach(function (id) {
+                const data = localStorage.getItem(id) || '';
+                const element = document.getElementById(id);
+
+                if (element) {
+                    if (element.tagName === 'SELECT') {
+                        // For select elements, set the selected text of the option
+                        const selectedOption = Array.from(element.options).find(option => option.text === data);
+                        if (selectedOption) {
+                            selectedOption.selected = true;
+                        }
+                    } else {
+                        // For non-select elements, set the text content
+                        element.textContent = data;
+                    }
+                }
+            });
+        }
+
+        function setupEventListeners() {
+            const inputIds = [
+                "set-increase-btn",
+                "set-decrease-btn",
+                "home-increase-btn",
+                "home-decrease-btn",
+                "away-increase-btn",
+                "away-decrease-btn",
+                "save-set-btn",
+                "team-selection1",
+                "team-selection2",
+            ];
+
+            inputIds.forEach(function (id) {
+                document.getElementById(id).addEventListener('click', updateLocalStorage);
+            });
+
+            const selectIds = [
+                'team-selection1',
+                'team-selection2',
+            ];
+
+            selectIds.forEach(function(id) {
+                document.getElementById(id).addEventListener('change', function(e) {
+                    // For select elements, save the selected text of the option
+                    localStorage.setItem(id, e.target.options[e.target.selectedIndex].text);
+                    // Update team names if it's team-selection1, team-selection2, or category
+                    if (id === 'team-selection1' || id === 'team-selection2') {
+                        if (id === 'category') {
+                            teamNames.category = e.target.options[e.target.selectedIndex].text.trim();
+                        } else {
+                            teamNames[id === 'team-selection1' ? 'homeName' : 'awayName'] = e.target.options[e.target.selectedIndex].textContent.trim();
+                        }
+                    }
+                    updateLocalStorage();
+                });
+            });
+        }
+
+        // Event listeners for buttons and elements
+        document.getElementById("play-btn").addEventListener("click", startTimer);
+        document.getElementById("pause-btn").addEventListener("click", stopTimer);
+        document.getElementById("stop-btn").addEventListener("click", resetTimer);
+
+        // Initialize
+        loadStaticData();
+        setupEventListeners();
+        updateLocalStorage();
+        displayTime();
+
+    });
+
+    document.getElementById('home-heading').addEventListener('click', function() {
+        // Store a flag in localStorage to indicate that Home was clicked
+        localStorage.setItem('homeClicked', 'true');
+    
+        // Create the home-serve element
+        var homeServe = document.createElement('span');
+        homeServe.id = 'home-serve';
+        homeServe.textContent = 'HOME'; // Set the content of the span
+        homeServe.style.color = '#fff'; // Set text color to white for contrast
+    
+        // Apply the text-shadow effect after 1000ms
+        setTimeout(function() {
+            homeServe.style.textShadow = '-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000';
+        }, 1000);
+    
+        // Append the home-serve element to the document body or any other parent element
+        document.body.appendChild(homeServe);
+    });
+    
+    document.getElementById('away-heading').addEventListener('click', function() {
+        // Store a flag in localStorage to indicate that Home was clicked
+        localStorage.setItem('awayClicked', 'true');
+    
+        // Create the home-serve element
+        var awayServe = document.createElement('span');
+        awayServe.id = 'away-serve';
+        awayServe.textContent = 'AWAY'; // Set the content of the span
+        awayServe.style.color = '#fff'; // Set text color to white for contrast
+    
+        // Apply the text-shadow effect after 1000ms
+        setTimeout(function() {
+            awayServe.style.textShadow = '-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000';
+        }, 1000);
+    
+        // Append the home-serve element to the document body or any other parent element
+        document.body.appendChild(awayServe);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('reset-button').addEventListener('click', function() {
+            // Reset UI elements on the scoreboard page
+            document.getElementById('home-score').textContent = '0';
+            document.getElementById('home-timeout').textContent = '0';
+            document.getElementById('away-score').textContent = '0';
+            document.getElementById('away-timeout').textContent = '0';
+            document.getElementById('set').textContent = '0';
+            document.getElementById('home-set1').textContent = '0';
+            document.getElementById('home-set2').textContent = '0';
+            document.getElementById('home-set3').textContent = '0';
+            document.getElementById('away-set1').textContent = '0';
+            document.getElementById('away-set2').textContent = '0';
+            document.getElementById('away-set3').textContent = '0';
+    
+            // Clear localStorage for each score and state
+            localStorage.removeItem('home-score');
+            localStorage.removeItem('home-timeout');
+            localStorage.removeItem('away-score');
+            localStorage.removeItem('away-timeout');
+            localStorage.removeItem('set');
+            localStorage.removeItem('home-set1');
+            localStorage.removeItem('home-set2');
+            localStorage.removeItem('home-set3');
+            localStorage.removeItem('away-set1');
+            localStorage.removeItem('away-set2');
+            localStorage.removeItem('away-set3');
+
+            localStorage.setItem('resetTrigger', 'reset');
+        });
+    });
+
+    document.getElementById('save-match-btn').addEventListener('click', function() {
+        const allHomeData = [];
+        const allAwayData = [];
+
+        // Iterating over each row in the home team table to collect the data
+        const homeRows = document.querySelectorAll('#home-player-score tbody tr');
+        homeRows.forEach((row, index) => {
+            const playerName = row.cells[0].textContent;
+            const playerRole = row.cells[1].textContent;
+            const points = row.cells[2].querySelector('input').value;
+            const team = row.cells[3].querySelector('input').value;
+
+
+            // Structuring the data for each row
+            const rowData = {
+                playerName: playerName,
+                playerRole: playerRole,
+                points: points,
+                team: team
+            };
+
+            allHomeData.push(rowData);
+        });
+
+        // Iterating over each row in the away team table to collect the data
+        const awayRows = document.querySelectorAll('#away-player-score tbody tr');
+        awayRows.forEach((row, index) => {
+            const playerName = row.cells[0].textContent;
+            const playerRole = row.cells[1].textContent;
+            const points = row.cells[2].querySelector('input').value;
+            const team = row.cells[3].querySelector('input').value;
+
+            // Structuring the data for each row
+            const rowData = {
+                playerName: playerName,
+                playerRole: playerRole,
+                points: points,
+                team: team
+            };
+
+            allAwayData.push(rowData);
+        });
+
+        console.log('Home Team Collected Data:', allHomeData);
+        console.log('Away Team Collected Data:', allAwayData);
+
+        const initialData = {
+            teamSelection1: document.getElementById('team-selection1').options[document.getElementById("team-selection1").selectedIndex].value,
+            teamSelection2: document.getElementById('team-selection2').options[document.getElementById("team-selection2").selectedIndex].value,
+            teamSelection1Text: document.getElementById('team-selection1').options[document.getElementById("team-selection1").selectedIndex].textContent,
+            teamSelection2Text: document.getElementById('team-selection2').options[document.getElementById("team-selection2").selectedIndex].textContent,
+            homeTimeout: document.getElementById('home-timeout').textContent,
+            awayTimeout: document.getElementById('away-timeout').textContent,
+            homeSet1: document.getElementById('home-set1').textContent,
+            homeSet2: document.getElementById('home-set2').textContent,
+            homeSet3: document.getElementById('home-set3').textContent,
+            awaySet1: document.getElementById('away-set1').textContent,
+            awaySet2: document.getElementById('away-set2').textContent,
+            awaySet3: document.getElementById('away-set3').textContent
+        };
+    
+        // Log the initial values
+        console.log('Initial Data:', initialData);
+
+        localStorage.setItem('initialMatchData', JSON.stringify(initialData));
+
+        // Saving the structured data in localStorage for home team
+        const homeUniqueKey = `homePlayerFormData${new Date().getTime()}`;
+        localStorage.setItem(homeUniqueKey, JSON.stringify(allHomeData));
+
+        // Saving the structured data in localStorage for away team
+        const awayUniqueKey = `awayPlayerFormData${new Date().getTime()}`;
+        localStorage.setItem(awayUniqueKey, JSON.stringify(allAwayData));
+        
+        alert('Form data saved.');
+    });
+</script>
+</body>
+</html>

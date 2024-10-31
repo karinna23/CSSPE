@@ -1,0 +1,107 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLE TENNIS DATA</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="javascript:history.back()">
+                        <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</header>    
+<h1>School Year: {{ school_year.start_year }}-{{ school_year.end_year }}</h1>
+<div class="container">
+    <h3>Tennis Players</h3>
+    <table>
+    <thead>
+    <tr>
+        <th>Player Name</th>
+        <th>Team Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for player in players %}
+    <tr>
+        <td>{{ player.player_name }}</td>
+        <td>{{ player.collegeID }}</td>
+        <td>
+            <a href="{% url 'myapp:edit_tennis_player' player.playerID %}" class="edit-btn">Edit</a>
+            <a href="{% url 'myapp:delete_tennis_player' player.playerID %}" class="delete-btn">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <a href="{% url 'myapp:add_tennis_player' year_id=school_year.pk %}" class="add-btn">Add Player</a>
+</div>
+
+<div class="container">
+<h3>Coaches</h3>
+<table>
+<thead>
+<tr>
+    <th>Coach's Name</th>
+    <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for coach in coaches %}
+<tr>
+    <td>{{ coach.coach_name }}</td>
+    <td>
+        <a href="{% url 'myapp:edit_tennis_coach' coach.coachID %}" class="edit-btn">Edit</a>
+        <a href="{% url 'myapp:delete_coach' coach.coachID %}" class="delete-btn">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<a href="{% url 'myapp:add_tennis_coach' year_id=school_year.pk %}" class="add-btn">Add Coach</a>
+</div>
+    
+<div class="container">
+        <h3>Umpires</h3>
+        <table>
+        <thead>
+        <tr>
+            <th>Umpire Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for umpire in umpires %}
+        <tr>
+            <td>{{ umpire.umpire_name }}</td>
+            <td>
+                <a href="{% url 'myapp:edit_tennis_umpire' umpire.umpireID %}" class="edit-btn">Edit</a>
+                <a href="{% url 'myapp:delete_umpire' umpire.umpireID %}" class="delete-btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="{% url 'myapp:add_tennis_umpire' year_id=school_year.pk %}" class="add-btn">Add Umpire</a>
+    </div>
+</body>
+</html>

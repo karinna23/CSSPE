@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/anyo_sheet_auth.css' %}">
+    <title>ARNIS ANYO</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <a href="/arnis_history">
+                    <img src="{% static '/img/file.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">History</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/arnis_bracket">
+                    <img src="{% static '/img/dice.png'%}"  alt="Randomizer" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Randomizer</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/arnis_sport_data">
+                    <img src="{% static '/img/folder.png'%}"  alt="Data" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Arnis Data</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body>
+    <h1>PLEASE FILL OUT DETAILS</h1>
+        <div class="container">
+            <form method="get" action="" class="year">
+                <label for="school-year">School Year:</label>
+                <select name="school_year" onchange="this.form.submit()" class="school-year" id="school-years">
+                    <option value="" >Select a School Year</option>
+                    {% for year in school_years %}
+                        <option value="{{ year.YearID }}" {% if selected_year_id|stringformat:"s" == year.YearID|stringformat:"s" %}selected{% endif %}>
+                            {{ year.start_year }}-{{ year.end_year }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-section">
+                    <div class="match-info">
+                    <div class="columns">
+                    <div class="column">
+                    <label for="form_type">Form:</label>
+                    <select id="form-type" name="form_type">
+                        <option value="">Please Select Anyo Form</option>
+                        <option value="Traditional">Traditional Anyo Form</option>
+                        <option value="Non-traditional">Non-Traditional Anyo Form</option>
+                    </select>
+                    </div>
+                    <div class="column">
+                    <label for="venue">Venue:</label>
+                    <input type="text" id="venue" name="venue">
+                    </div>
+                    <div class="column">
+                    <label for="date">Date:</label>
+                    <input type="datetime-local" id="date" name="date">
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <label for="division">Division:</label>
+                        <select id="division" name="division">
+                            <option value="">Please Select Division</option>
+                            <option value="mens">Men's</option>
+                            <option value="womens">Women's</option>
+                        </select>
+                    </div>
+                    
+                    <div class="column">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category">
+                            <option value="">Please Select Category</option>
+                            <option value="solo baston">Solo Baston</option>
+                            <option value="doble baston">Doble Baston</option>
+                            <option value="spada y daga">Spada y Daga</option>
+                            <!-- Add more options here as needed -->
+                        </select>
+                    </div>                
+                    <div class="column">
+                    <label for="form_no">Form No.:</label>
+                    <input type="text" id="form-no" name="form_no">
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                    <label for="preference">Preference:</label>
+                    <select id="preference" name="preference">
+                        <option value="">Please Select Preference</option>
+                        <option value="team">Team</option>
+                        <option value="individual">Individual</option>
+                        <!-- Add more options here as needed -->
+                    </select>                
+                </div>
+                </div> 
+            </div>
+                    <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->                <div class="coordinator">
+                <div class="coordinators">
+                <label for="tabulator">Tabulator:</label>
+                    <select id="tabulator" name="tabulator">
+                        <option value="" >Select Tabulator</option>
+                    {% for tabulator in tabulators %}
+                        <option value="{{ tabulator.tabulatorID }}">{{ tabulator.tabulator_name }}</option>
+                    {% endfor %}
+                </select>            
+                </div>
+                    <div class="coordinators">
+                    <label for="timer">Timer:</label>
+                        <select id="timer" name="timer">
+                            <option value="" >Select Timer</option>
+                        {% for timer in timers %}
+                            <option value="{{ timer.timerID }}">{{ timer.timer_name }}</option>
+                        {% endfor %}
+                    </select>           
+                    </div>
+                    <div class="coordinators">
+                    <label for="manage">Arnis Tournament Manager:</label>
+                        <select id="manager" name="manager">
+                            <option value="" >Select Manager</option>
+                        {% for manager in managers %}
+                            <option value="{{ manager.managerID }}">{{ manager.manager_name }}</option>
+                        {% endfor %}
+                    </select>                               
+                </div>
+                </div>
+                <button id="start-form-btn" class="save-sheet-btn">Start Competition</button>
+            </form>   
+        </div>
+    <script>
+        document.getElementById('start-form-btn').addEventListener('click', function () {
+            // Correctly getting all input values from their IDs
+            const schoolYear = document.getElementById('school-years').value;
+            const schoolYearText = document.getElementById('school-years').options[
+                document.getElementById('school-years').selectedIndex
+            ].textContent;
+        
+            const formType = document.getElementById('form-type').value;
+            const venue = document.getElementById('venue').value;
+            const date = document.getElementById('date').value;
+            const division = document.getElementById('division').value;
+            const divisionText = document.getElementById('division').options[
+                document.getElementById('division').selectedIndex
+            ].textContent;
+        
+            const category = document.getElementById('category').value;
+            const categoryText = document.getElementById('category').options[
+                document.getElementById('category').selectedIndex
+            ].textContent;
+        
+            const formNo = document.getElementById('form-no').value;
+            const preference = document.getElementById('preference').value;
+        
+            const tabulator = document.getElementById('tabulator').value;
+            const tabulatorText = document.getElementById('tabulator').options[
+                document.getElementById('tabulator').selectedIndex
+            ].textContent;
+        
+            const timer = document.getElementById('timer').value;
+            const timerText = document.getElementById('timer').options[
+                document.getElementById('timer').selectedIndex
+            ].textContent;
+        
+            const manager = document.getElementById('manager').value;
+            const managerText = document.getElementById('manager').options[
+                document.getElementById('manager').selectedIndex
+            ].textContent;
+        
+            // Check if all required fields are filled
+            if (
+                !schoolYear || !formType || !venue || !date || !division || !category ||
+                !formNo || !preference || !tabulator || !timer || !manager
+            ) {
+                alert('Please fill out all required fields.');
+                return;
+            }
+        
+            // Prepare the structured data object
+            const anyoData = {
+                formInfo: {
+                    schoolYear, 
+                    schoolYearText, 
+                    formType, 
+                    venue, 
+                    date, 
+                    division, 
+                    divisionText, 
+                    category, 
+                    categoryText, 
+                    formNo, 
+                    preference
+                },
+                coordinator: {
+                    tabulator, 
+                    tabulatorText, 
+                    timer, 
+                    timerText, 
+                    manager, 
+                    managerText
+                }
+            };
+        
+            // Save data to localStorage
+            localStorage.setItem('anyoData', JSON.stringify(anyoData));
+        
+            // Retrieve and verify stored data
+            const storedData = JSON.parse(localStorage.getItem('anyoData'));
+        
+            console.log('Stored Data:', storedData);
+        
+            console.log('Match Info:');
+            console.log('  School Year:', storedData.formInfo.schoolYear);
+            console.log('  Selected School Year Text:', storedData.formInfo.schoolYearText);
+            console.log('  Form:', storedData.formInfo.formType);
+            console.log('  Venue:', storedData.formInfo.venue);
+            console.log('  Date:', storedData.formInfo.date);
+            console.log('  Division:', storedData.formInfo.division);
+            console.log('  Division Text:', storedData.formInfo.divisionText);
+            console.log('  Category:', storedData.formInfo.category);
+            console.log('  Category Text:', storedData.formInfo.categoryText);
+            console.log('  Form No:', storedData.formInfo.formNo);
+            console.log('  Preference:', storedData.formInfo.preference);
+        
+            console.log('Coordinators:');
+            console.log('  Tabulator:', storedData.coordinator.tabulator);
+            console.log('  Tabulator Text:', storedData.coordinator.tabulatorText);
+            console.log('  Timer:', storedData.coordinator.timer);
+            console.log('  Timer Text:', storedData.coordinator.timerText);
+            console.log('  Manager:', storedData.coordinator.manager);
+            console.log('  Manager Text:', storedData.coordinator.managerText); 
+            
+            const redirectUrl1 = "{% url 'myapp:anyo_sheet' %}"; // Use the Django template tag
+    
+            window.open(redirectUrl1, '_blank'); // Open in a new tab    
+    });        
+
+    </script>                 
+</body>
+</html>

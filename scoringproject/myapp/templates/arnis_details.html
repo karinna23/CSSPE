@@ -1,0 +1,230 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARNIS INFORMATION</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="javascript:history.back()">
+                    <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</header>    
+<h1>School Year: {{ school_year.start_year }}-{{ school_year.end_year }}</h1>
+<div class="container">
+    <h3>Arnis Form Players</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>College</th>
+                <th>Actions</th> <!-- Added column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in form_players %}
+            <tr>
+                <td>{{ player.player_name }}</td>
+                <td>{{ player.collegeID }}</td>
+                <td>
+                    <a href="{% url 'myapp:edit_form_player' player.playerID %}" class="edit-btn">Edit</a>
+                    <a href="{% url 'myapp:delete_form_player' player.playerID %}" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Add button -->
+    <a href="{% url 'myapp:add_form_player' year_id=school_year.pk %}" class="add-btn">Add Form Player</a>
+</div>
+<div class="container">
+    <h3>Arnis Labanan Players</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>College</th>
+                <th>Actions</th> <!-- Added column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in  labanan_players %}
+            <tr>
+                <td>{{ player.player_name }}</td>
+                <td>{{ player.collegeID }}</td>
+                <td>
+                    <a href="{% url 'myapp:edit_labanan_player' player.playerID %}" class="edit-btn">Edit</a>
+                    <a href="{% url 'myapp:delete_labanan_player' player.playerID %}" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Add button -->
+    <a href="{% url 'myapp:add_labanan_player' year_id=school_year.pk %}" class="add-btn">Add Labanan Player</a>
+</div>
+
+<div class="container">
+    <h3>Managers</h3>
+    <table>
+    <thead>
+    <tr>
+        <th>Manager Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for manager in managers %}
+    <tr>
+        <td>{{ manager.manager_name }}</td>
+        <td>
+            <a href="{% url 'myapp:edit_manager' manager.managerID %}" class="edit-btn">Edit</a>
+            <a href="{% url 'myapp:delete_manager' manager.managerID %}" class="delete-btn">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <a href="{% url 'myapp:add_manager' year_id=school_year.pk %}" class="add-btn">Add Manager</a>
+</div>
+
+<div class="container">
+<h3>Referees</h3>
+<table>
+<thead>
+<tr>
+    <th>Referee Name</th>
+    <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for referee in referees %}
+<tr>
+    <td>{{ referee.referee_name }}</td>
+    <td>
+        <a href="{% url 'myapp:edit_referee' referee.refereeID %}" class="edit-btn">Edit</a>
+        <a href="{% url 'myapp:delete_referee' referee.refereeID %}" class="delete-btn">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<a href="{% url 'myapp:add_referee' year_id=school_year.pk %}" class="add-btn">Add Referee</a>
+</div>
+
+<div class="container">
+    <h3>Judges</h3>
+    <table>
+    <thead>
+    <tr>
+        <th>Judge Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for judge in judges %}
+    <tr>
+        <td>{{ judge.judge_name }}</td>
+        <td>
+            <a href="{% url 'myapp:edit_judge' judge.judgeID %}" class="edit-btn">Edit</a>
+            <a href="{% url 'myapp:delete_judge' judge.judgeID %}" class="delete-btn">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <a href="{% url 'myapp:add_judge' year_id=school_year.pk %}" class="add-btn">Add Judge</a>
+    </div>
+
+<div class="container">
+        <h3>Recorders</h3>
+        <table>
+        <thead>
+        <tr>
+            <th>Recorder Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for recorder in recorders %}
+        <tr>
+            <td>{{ recorder.recorder_name }}</td>
+            <td>
+                <a href="{% url 'myapp:edit_recorder' recorder.recorderID %}" class="edit-btn">Edit</a>
+                <a href="{% url 'myapp:delete_recorder' recorder.recorderID %}" class="delete-btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="{% url 'myapp:add_recorder' year_id=school_year.pk %}" class="add-btn">Add Recorder</a>
+    </div>
+
+<div class="container">
+        <h3>Tabulators</h3>
+        <table>
+        <thead>
+        <tr>
+            <th>Tabulator Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tabulator in tabulators %}
+        <tr>
+            <td>{{ tabulator.tabulator_name }}</td>
+            <td>
+                <a href="{% url 'myapp:edit_tabulator' tabulator.tabulatorID %}" class="edit-btn">Edit</a>
+                <a href="{% url 'myapp:delete_tabulator' tabulator.tabulatorID %}" class="delete-btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="{% url 'myapp:add_tabulator' year_id=school_year.pk %}" class="add-btn">Add Tabulator</a>
+    </div>
+    
+<div class="container">
+        <h3>Timers</h3>
+        <table>
+        <thead>
+        <tr>
+            <th>Timer Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for timer in timers %}
+        <tr>
+            <td>{{ timer.timer_name }}</td>
+            <td>
+                <a href="{% url 'myapp:edit_timer' timer.timerID %}" class="edit-btn">Edit</a>
+                <a href="{% url 'myapp:delete_timer' timer.timerID %}" class="delete-btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="{% url 'myapp:add_timer' year_id=school_year.pk %}" class="add-btn">Add Timer</a>
+    </div>
+</body>
+</html>

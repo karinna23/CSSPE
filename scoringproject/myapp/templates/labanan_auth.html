@@ -1,0 +1,306 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/arnis_sheet_auth.css' %}">
+    <title>ARNIS LABANAN</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <a href="/arnis_history">
+                    <img src="{% static '/img/file.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">History</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/arnis_bracket">
+                    <img src="{% static '/img/dice.png'%}"  alt="Randomizer" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Randomizer</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/arnis_sport_data">
+                    <img src="{% static '/img/folder.png'%}"  alt="Data" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Arnis Data</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body>
+    <h1>PLEASE FILL OUT DETAILS</h1>
+    <div class="container">
+        <form method="get" action="" class="year">
+            <label for="school-year">School Year:</label>
+            <select name="school_year" onchange="this.form.submit()" class="school-year" id="school-years">
+                <option value="" >Select a School Year</option>
+                {% for year in school_years %}
+                    <option value="{{ year.YearID }}" {% if selected_year_id|stringformat:"s" == year.YearID|stringformat:"s" %}selected{% endif %}>
+                        {{ year.start_year }}-{{ year.end_year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-section">
+                <div class="match-info">
+                <div class="columns">
+                <div class="column">
+                <label for="event">Event:</label>
+                <input type="text" id="event" name="event">
+                </div>
+                <div class="column">
+                <label for="venue">Venue:</label>
+                <input type="text" id="venue" name="venue">
+                </div>
+                <div class="column">
+                <label for="date">Date:</label>
+                <input type="datetime-local" id="date" name="date">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <label for="division">Division:</label>
+                    <select id="division" name="division">
+                        <option value="" >Select a Division</option>
+                        <option value="mens">Men's</option>
+                        <option value="womens">Women's</option>
+                    </select>
+                </div>
+                
+                <div class="column">
+                    <label for="weight-category">Weight Category:</label>
+                    <select id="weight-category" name="weight_category" class="input-fields">
+                        <option value="" >Select a Weight Category</option>
+                        <option value="pinweight">Pinweight</option>
+                        <option value="bantamweight">Bantamweight</option>
+                        <option value="featherweight">Featherweight</option>
+                        <option value="extra_lightweight">Extra Lightweight</option>
+                        <option value="half_lightweight">Half Lightweight</option>
+                    </select>   
+                </div>                
+                <div class="column">
+                <label for="match-no">Match No.:</label>
+                <input type="text" id="match-no" name="match_no">
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                <label for="area">Area:</label>
+                <input type="text" id="area" name="area">
+                </div> 
+                </div>
+            </div> 
+                <div class="player-info">
+                <div class="team red-team">
+                <h3>RED</h3>
+                <div class="team-info">
+                    <div class="team-block">
+                        <label for="red-team-name">Team:</label>
+                        <select id="red-team-name" name="red_team" class="team-block">
+                            <option value="" >Select a Team</option>
+                            {% for college in colleges %}
+                                <option value="{{ college.collegeID }}">{{ college.college_abb }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="team-block">
+                        <label for="red-player-name">Name:</label>
+                        <select id="red-player-name" name="red_player" class="team-block">
+                            <option value="" >Select a Player</option>
+                            {% for player in players %}
+                                <option value="{{ player.playerID }}">{{ player.player_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                </div>
+
+                <div class="team blue-team">
+                <div class="team-info">
+                <div class="team-block">
+                        <label for="blue-team-name">Team:</label>
+                        <select id="blue-team-name" name="blue_team" class="team-block">
+                            <option value="" >Select a Team</option>
+                            {% for college in colleges %}
+                                <option value="{{ college.collegeID }}">{{ college.college_abb }}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+                    <div class="team-block">
+                        <label for="blue-player-name">Name:</label>
+                        <select id="blue-player-name" name="blue_player" class="team-block">
+                            <option value="" >Select a Player</option>
+                            {% for player in players %}
+                                <option value="{{ player.playerID }}">{{ player.player_name }}</option>
+                            {% endfor %}
+                        </select>
+                </div>                
+                </div>
+                <h3>BLUE</h3>
+                </div>
+                </div>     
+                <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->
+            <div class="judge">
+            <label for="judge1">Judge 1:</label>
+            <select id="judge1" name="judge1">
+                <option value="" >Select Judge 1</option>
+                {% for judge in judges %}
+                    <option value="{{ judge.judgeID }}">{{ judge.judge_name }}</option>
+                {% endfor %}
+            </select>
+                
+                <label for="judge2">Judge 2:</label>
+                <select id="judge2" name="judge2">
+                    <option value="" >Select Judge 2</option>
+                    {% for judge in judges %}
+                        <option value="{{ judge.judgeID }}">{{ judge.judge_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="judge3">Judge 3:</label>
+                <select id="judge3" name="judge3">
+                    <option value="" >Select Judge 3</option>
+                {% for judge in judges %}
+                    <option value="{{ judge.judgeID }}">{{ judge.judge_name }}</option>
+                {% endfor %}
+            </select>            
+        </div>
+            <div class="other">
+                <label for="referee">Referee:</label>
+                <select id="referee" name="referee">
+                    <option value="" >Select Referee</option>
+                    {% for referee in referees %}
+                        <option value="{{ referee.refereeID }}">{{ referee.referee_name }}</option>
+                    {% endfor %}
+                </select>
+                
+                <label for="recorder">Recorder:</label>
+                <select id="recorder" name="recorder">
+                    <option value="" >Select Recorder</option>
+                    {% for recorder in recorders %}
+                        <option value="{{ recorder.recorderID}}">{{ recorder.recorder_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button id="start-game-btn" class="btn-save">Start Match</button>
+        </form>
+    </div>
+<script>
+    document.getElementById('start-game-btn').addEventListener('click', function () {
+
+        const schoolYear = document.getElementById('school-years').value;
+        const schoolYearText = document.getElementById('school-years').options[document.getElementById('school-years').selectedIndex].textContent;        
+        const event = document.getElementById('event').value;
+        const venue = document.getElementById('venue').value;
+        const date = document.getElementById('date').value;
+        const division = document.getElementById('division').value;
+        const divisionText = document.getElementById('division').options[document.getElementById('division').selectedIndex].textContent;        
+        const weightCategory = document.getElementById('weight-category').value;
+        const weightCategoryText = document.getElementById('weight-category').options[document.getElementById('weight-category').selectedIndex].textContent;        
+        const matchNo = document.getElementById('match-no').value;
+        const area = document.getElementById('area').value;
+    
+        const redTeamName = document.getElementById('red-team-name').value;
+        const redTeamNameText = document.getElementById('red-team-name').options[document.getElementById('red-team-name').selectedIndex].textContent;        
+        const redPlayerName = document.getElementById('red-player-name').value;
+        const redPlayerNameText = document.getElementById('red-player-name').options[document.getElementById('red-player-name').selectedIndex].textContent;        
+        const blueTeamName = document.getElementById('blue-team-name').value;
+        const blueTeamNameText = document.getElementById('blue-team-name').options[document.getElementById('blue-team-name').selectedIndex].textContent;        
+        const bluePlayerName = document.getElementById('blue-player-name').value;
+        const bluePlayerNameText = document.getElementById('blue-player-name').options[document.getElementById('blue-player-name').selectedIndex].textContent;        
+    
+        const judge1 = document.getElementById('judge1').value;
+        const judge1Text = document.getElementById('judge1').options[document.getElementById('judge1').selectedIndex].textContent;        
+        const judge2 = document.getElementById('judge2').value;
+        const judge2Text = document.getElementById('judge2').options[document.getElementById('judge2').selectedIndex].textContent;        
+        const judge3 = document.getElementById('judge3').value;
+        const judge3Text = document.getElementById('judge3').options[document.getElementById('judge3').selectedIndex].textContent;        
+        const referee = document.getElementById('referee').value;
+        const refereeText = document.getElementById('referee').options[document.getElementById('referee').selectedIndex].textContent;        
+        const recorder = document.getElementById('recorder').value;
+        const recorderText = document.getElementById('recorder').options[document.getElementById('recorder').selectedIndex].textContent;      
+        
+        if (!schoolYear || !event || !venue || !date || !division || !weightCategory || !matchNo || !area ||
+        !redTeamName || !redPlayerName || !blueTeamName || !bluePlayerName || !judge1 || !judge2 || !judge3 || !referee || !recorder) {
+        alert('Please fill out all required fields.');
+        return;
+    }
+    
+        const labananData = {
+            matchInfo: {
+                schoolYear, schoolYearText, event, venue, date, division, weightCategory, matchNo, area, divisionText, weightCategoryText
+            },
+            redTeam: {
+                name: redTeamName,
+                nameText: redTeamNameText,
+                player: redPlayerName,
+                playerText: redPlayerNameText
+            },
+            blueTeam: {
+                name: blueTeamName,
+                nameText: blueTeamNameText,
+                player: bluePlayerName,
+                playerText: bluePlayerNameText
+            },
+            officials: { judge1, judge2, judge3, referee, recorder, judge1Text, judge2Text, judge3Text, refereeText, recorderText },
+        };
+    
+        // Saving the structured data in localStorage
+        localStorage.setItem('labananData', JSON.stringify(labananData));
+    
+        // Retrieve and print the stored data for verification
+        const storedData = JSON.parse(localStorage.getItem('labananData'));
+        
+        // Print each piece of data one by one
+        console.log('Stored Data:');
+        console.log('Match Info:');
+        console.log('  School Year:', storedData.matchInfo.schoolYear);
+        console.log('Selected School Year Text:', storedData.matchInfo.schoolYearText);  // Debugging: Check the selected text
+        console.log('  Event:', storedData.matchInfo.event);
+        console.log('  Venue:', storedData.matchInfo.venue);
+        console.log('  Date:', storedData.matchInfo.date);
+        console.log('  Division:', storedData.matchInfo.division);
+        console.log('  Weight Category:', storedData.matchInfo.weightCategory);
+        console.log('  Match No:', storedData.matchInfo.matchNo);
+        console.log('  Area:', storedData.matchInfo.area);
+        
+        console.log('Red Team:');
+        console.log('  Name:', storedData.redTeam.name);
+        console.log('  Player:', storedData.redTeam.player);
+    
+        console.log('Blue Team:');
+        console.log('  Name:', storedData.blueTeam.name);
+        console.log('  Player:', storedData.blueTeam.player);
+    
+        console.log('Officials:');
+        console.log('  Judge 1:', storedData.officials.judge1);
+        console.log('  Judge 2:', storedData.officials.judge2);
+        console.log('  Judge 3:', storedData.officials.judge3);
+        console.log('  Referee:', storedData.officials.referee);
+        console.log('  Recorder:', storedData.officials.recorder);
+    
+        const redirectUrl1 = "{% url 'myapp:labanan_sheet' %}"; // Use the Django template tag
+        const redirectUrl2 = "{% url 'myapp:arnis_labanan' %}"; // Use the Django template tag
+        const redirectUrl3 = "{% url 'myapp:labanan_display' %}"; // Use the Django template tag
+    
+        window.open(redirectUrl1, '_blank'); // Open in a new tab    
+        window.open(redirectUrl2, '_blank'); // Open in a new tab    
+        window.open(redirectUrl3, '_blank'); // Open in a new tab    
+});    
+    
+</script>
+</body>
+</html>

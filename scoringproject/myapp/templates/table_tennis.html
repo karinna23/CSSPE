@@ -1,0 +1,52 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLE TENNIS</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/sport.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <a href="/logout">
+                        <img src="{% static '/img/logout.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Logout</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+    <div class="sports-buttons-style">
+        <div class="sports-buttons">
+            <a href="/tennis_history">
+                <img src="{% static '/img/file1.png'%}"  alt="Match History" class="icon" placeholder="icon" /><br>
+                HISTORY
+            </a>
+            <a href="/tennis_bracket">
+                <img src="{% static '/img/dice1.png'%}"  alt="Match History" class="icon" placeholder="icon" /><br>
+                RANDOMIZER
+            </a>
+        </div>
+        <div class="sports-buttons">
+            <a href="/tennis_sport_data">
+                <img src="{% static '/img/folder1.png'%}"  alt="Match History" class="icon" placeholder="icon" /><br>
+                TABLE TENNIS DATA
+            </a>
+            <a href="/tennis_sport">
+                <img src="{% static '/img/arrow.png'%}"  alt="Match History" class="icon" placeholder="icon" /><br>
+                START A GAME
+            </a>
+        </div>
+    </div>
+</header>
+</body>
+</html>

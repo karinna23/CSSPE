@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Tabulator</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+            color: #333;
+        }
+        .btn-custom {
+            background-color: #ca4f4d;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #b44444;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Add New Tabulator</h2>
+
+        {% if is_admin %}   
+        <form method="get">
+            <div class="mb-3">
+                <label for="previous_year" class="form-label">Select Previous School Year:</label>
+                <select name="previous_year" id="previous_year" class="form-select" onchange="this.form.submit()">
+                    <option value="">-- Select Year --</option>
+                    {% for year in all_school_years %}
+                    <option value="{{ year.pk }}" {% if selected_year_id|stringformat:"s" == year.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ year.start_year }}-{{ year.end_year }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <!-- Display tabulators from the selected previous year -->
+        {% if tabulators_from_previous_year %}
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <h4>Available Tabulators:</h4>
+            <ul class="list-group mb-3">
+                {% for tabulator in tabulators_from_previous_year %}
+                    <li class="list-group-item">
+                        <input type="checkbox" name="selected_tabulators" value="{{ tabulator.pk }}" />
+                        {{ tabulator.tabulator_name }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit" class="btn btn-custom">Add Selected Tabulator</button>
+        </form>
+        {% else %}
+            <p class="text-center mt-4">No Tabulator available for the selected year.</p>
+        {% endif %}
+        {% endif %}
+
+        <!-- Tabulator addition form -->
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <h4>Add New Tabulator:</h4>
+            <div class="mb-3">
+                <label for="new_tabulator_name" class="form-label">New Tabulator Name:</label>
+                <input type="text" name="new_tabulator_name" id="new_tabulator_name" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-custom">Save</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

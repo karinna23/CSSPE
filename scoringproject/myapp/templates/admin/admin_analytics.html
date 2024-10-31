@@ -1,0 +1,426 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics for {{ school_year }}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_details.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="{% static 'img/csspe.png' %}" alt="Logo">
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li>
+                        <span>{{ username|upper  }}</span> <!-- Display Username -->
+                    </li>
+                    <li>
+                        <a href="javascript:history.back()">
+                            <img src="{% static '/img/back.png' %}" alt="Go Back" class="icon" />
+                            <span class="tooltip-text">Go back</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Analytics for {{ school_year }}</h1>
+            <div class="canvas-container">
+            <div class="stats-section">
+                <h2>Arnis Statistics</h2>
+                <canvas id="arnisChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Arnis Labanan Players:</strong><br>
+                        {{ total_labanan_players }} ({{ total_labanan_players_percentage|floatformat:2 }}%)
+                    </div>
+                    <div class="stat-item">
+                        <strong>Total Arnis Form Players:</strong><br>
+                        {{ total_form_teams }} ({{ total_form_players_percentage|floatformat:2 }}%)
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2>Tennis Statistics</h2>
+                <canvas id="tennisChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Tennis Players:</strong><br>
+                        {{ total_tennis_players }} ({{ total_tennis_players_percentage|floatformat:2 }}%)
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <h2>Volleyball Statistics</h2>
+                <canvas id="volleyballChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Volleyball Teams:</strong><br>
+                        {{ total_volleyball_teams }} ({{ total_volleyball_teams_percentage|floatformat:2 }}%)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="canvas-container">
+            <div class="stats-section">
+                <canvas id="arnisOfficialsChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Arnis Judges:</strong>
+                        {{ total_arnis_judges }}<br>
+                        <strong>Total Arnis Recorders:</strong>
+                        {{ total_arnis_recorders }}<br>
+                        <strong>Total Arnis Referees:</strong>
+                        {{ total_arnis_referees }}<br>
+                        <strong>Total Arnis Tabulators:</strong>
+                        {{ total_arnis_tabulators }}<br>
+                        <strong>Total Arnis Timers:</strong>
+                        {{ total_arnis_timers }}<br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <canvas id="tennisOfficialsChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Table Tennis Coaches:</strong>
+                        {{ total_tennis_coaches }}<br>
+                        <strong>Total Table Tennis Umpires:</strong>
+                        {{ total_tennis_umpires }}<br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <canvas id="volleyballOfficialsChart"></canvas>
+                <div class="statistics-list">
+                    <div class="stat-item">
+                        <strong>Total Volleyball Judges:</strong>
+                        {{ total_volleyball_judges }}<br>
+                        <strong>Total Volleyball Referees:</strong>
+                        {{ total_volleyball_referees }}<br>
+                        <strong>Total Volleyball Scorers:</strong>
+                        {{ total_volleyball_scorers }}<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="canvas-container">
+            <canvas id="matchCountChart" width="800" height="400"></canvas>
+            <div class="stats-section">
+        <div class="statistics-list">
+            <div class="stat-item">
+                <strong>Total Double Tennis Matches:</strong> {{ total_double_tennis_matches }}<br>
+                <strong>Total Single Tennis Matches:</strong> {{ total_single_tennis_matches }}<br>
+                <strong>Total Labanan Matches:</strong> {{ total_labanan_matches }}<br>
+                <strong>Total Form Matches:</strong> {{ total_form_matches }}<br>
+                <strong>Total Volleyball Matches:</strong> {{ total_volleyball_matches }}<br>
+            </div>
+        </div>
+    </div>
+    </div>
+        </div>
+    </main>
+
+    <script>
+        // Arnis Chart
+        const arnisCtx = document.getElementById('arnisChart').getContext('2d');
+        const arnisChart = new Chart(arnisCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Arnis Labanan Players', 'Arnis Form Players'],
+                datasets: [{
+                    label: 'Arnis Players',
+                    data: [
+                        {{ total_labanan_players }},
+                        {{ total_form_teams }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Arnis Players Overview'
+                    }
+                }
+            }
+        });
+
+        const arnisOfficialsCtx = document.getElementById('arnisOfficialsChart').getContext('2d');
+const arnisOfficialsChart = new Chart(arnisOfficialsCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Judges', 'Recorders', 'Referees', 'Tabulators', 'Timers'],
+        datasets: [{
+            label: 'Arnis Officials',
+            data: [
+                {{ total_arnis_judges }},
+                {{ total_arnis_recorders }},
+                {{ total_arnis_referees }},
+                {{ total_arnis_tabulators }},
+                {{ total_arnis_timers }}
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)', // Judges
+                'rgba(54, 162, 235, 0.6)', // Recorders
+                'rgba(255, 206, 86, 0.6)',  // Referees
+                'rgba(75, 192, 192, 0.6)',  // Tabulators
+                'rgba(153, 102, 255, 0.6)'   // Timers
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Arnis Officials Overview'
+            }
+        }
+    }
+});
+
+     
+
+        // Tennis Chart
+        const tennisCtx = document.getElementById('tennisChart').getContext('2d');
+        const tennisChart = new Chart(tennisCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Tennis Players'],
+                datasets: [{
+                    label: 'Tennis Players',
+                    data: [
+                        {{ total_tennis_players }}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tennis Players Overview'
+                    }
+                }
+            }
+        });
+
+        const tennisOfficialsCtx = document.getElementById('tennisOfficialsChart').getContext('2d');
+const tennisOfficialsChart = new Chart(tennisOfficialsCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Coaches', 'Umpires'],
+        datasets: [{
+            label: 'Tennis Officials',
+            data: [
+                {{ total_tennis_coaches }},
+                {{ total_tennis_umpires }}
+            ],
+            backgroundColor: [
+                'rgba(255, 159, 64, 0.6)',  // Coaches
+                'rgba(75, 192, 192, 0.6)'    // Umpires
+            ],
+            borderColor: [
+                'rgba(255, 159, 64, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Tennis Officials Overview'
+            }
+        }
+    }
+});
+
+
+        // Volleyball Chart
+        const volleyballCtx = document.getElementById('volleyballChart').getContext('2d');
+        const volleyballChart = new Chart(volleyballCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Volleyball Teams'],
+                datasets: [{
+                    label: 'Volleyball Teams',
+                    data: [
+                        {{ total_volleyball_teams }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Volleyball Players Overview'
+                    }
+                }
+            }
+        });
+        const volleyballOfficialsCtx = document.getElementById('volleyballOfficialsChart').getContext('2d');
+const volleyballOfficialsChart = new Chart(volleyballOfficialsCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Judges', 'Referees', 'Scorers'],
+        datasets: [{
+            label: 'Volleyball Officials',
+            data: [
+                {{ total_volleyball_judges }},
+                {{ total_volleyball_referees }},
+                {{ total_volleyball_scorers }}
+            ],
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.6)',  // Judges
+                'rgba(75, 192, 192, 0.6)',   // Referees
+                'rgba(153, 102, 255, 0.6)'    // Scorers
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Volleyball Officials Overview'
+            }
+        }
+    }
+});
+
+const matchCountCtx = document.getElementById('matchCountChart').getContext('2d');
+const matchCountChart = new Chart(matchCountCtx, {
+    type: 'bar', // Use 'column' if you prefer
+    data: {
+        labels: [
+            'Double Tennis Matches',
+            'Single Tennis Matches',
+            'Labanan Matches',
+            'Form Matches',
+            'Volleyball Matches'
+        ],
+        datasets: [{
+            label: 'Total Match Counts',
+            data: [
+                {{ total_double_tennis_matches }},
+                {{ total_single_tennis_matches }},
+                {{ total_labanan_matches }},
+                {{ total_form_matches }},
+                {{ total_volleyball_matches }}
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Total Match Counts Overview'
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/volleyball_auth.css' %}">
+    <title>VOLLEYBALL MATCH</title>
+</head>
+<header>
+    <div class="navbar">
+    <div class="logo">
+        <img src="{% static 'img/csspe.png' %}" alt="Logo">
+    </div>
+    <div class="nav-links">
+        <ul>
+            <li>
+                <a href="/volleyball_history">
+                    <img src="{% static '/img/file.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">History</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/volleyball_bracket">
+                    <img src="{% static '/img/dice.png'%}"  alt="Randomizer" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Randomizer</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+            <li>
+                <a href="/volleyball_sport_data">
+                    <img src="{% static '/img/folder.png'%}"  alt="Data" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                    <span class="tooltip-text">Arnis Data</span> <!-- Tooltip Text -->
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> 
+</header>
+<body>
+    <h1>PLEASE FILL OUT DETAILS</h1>
+    <div class="container">
+        <form method="get" action="" class="year">
+            <label for="school-year">School Year:</label>
+            <select name="school_year" onchange="this.form.submit()" class="school-year" id="school-years">
+                <option value="" >Select a School Year</option>
+                {% for year in school_years %}
+                    <option value="{{ year.YearID }}" {% if selected_year_id|stringformat:"s" == year.YearID|stringformat:"s" %}selected{% endif %}>
+                        {{ year.start_year }}-{{ year.end_year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-section">
+                <div class="match-info">
+                <div class="columns">
+                <div class="column">
+                <label for="event">Event:</label>
+                <input type="text" id="event" name="event">
+                </div>
+                <div class="column">
+                <label for="place">Venue:</label>
+                <input type="text" id="place" name="place">
+                </div>
+                <div class="column">
+                <label for="date">Date:</label>
+                <input type="datetime-local" id="date" name="date">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="" >Select a Category</option>
+                        <option value="mens">Men's</option>
+                        <option value="womens">Women's</option>
+                    </select>
+                </div>
+                
+                <div class="column">
+                    <label for="time-started">Time Started:</label>
+                    <input type="time" id="time-started" name="start">
+                </div> 
+                <div class="column">
+                    <label for="time-finished">Time Finished:</label>
+                    <input type="time" id="time-finished" name="finish">
+                </div>                      
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <label for="match-no">Match No.:</label>
+                    <input type="text" id="match-no" name="match_no">
+                    </div>
+                </div>
+            </div> 
+        <hr class="bold-horizontal-line"> <!-- Apply a class to style the horizontal line -->    
+            <div class="judge">
+            <label for="judge1">Line Judge 1:</label>
+            <select id="judge1" name="line_judge1">
+                <option value="" >Select Judge 1</option>
+                {% for judge in judges %}
+                    <option value="{{ judge.judgeID }}">{{ judge.judge_name }}</option>
+                {% endfor %}
+            </select>
+                
+                <label for="judge2">Judge 2:</label>
+                <select id="judge2" name="line_judge2">
+                    <option value="" >Select Judge 2</option>
+                    {% for judge in judges %}
+                        <option value="{{ judge.judgeID }}">{{ judge.judge_name }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+            <div class="other">
+                <label for="referee1">Referee 1:</label>
+                <select id="referee1" name="referee1">
+                    <option value="" >Select Referee 1</option>
+                    {% for referee in referees %}
+                        <option value="{{ referee.refereeID }}">{{ referee.referee_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="referee2">Referee 2:</label>
+                <select id="referee2" name="referee2">
+                    <option value="" >Select Referee 2</option>
+                    {% for referee in referees %}
+                        <option value="{{ referee.refereeID }}">{{ referee.referee_name }}</option>
+                    {% endfor %}
+                </select>
+                
+                <label for="scorer">Scorekeeper:</label>
+                <select id="scorer" name="scorer">
+                    <option value="" >Select Scorekeeper</option>
+                    {% for scorer in scorers %}
+                        <option value="{{ scorer.scorerID}}">{{ scorer.scorer_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button id="start-volley-btn" class="btn-save">Start Volleyball Game</button>
+        </form>            
+    </div>
+<script>
+    document.getElementById('start-volley-btn').addEventListener('click', function () {
+        const schoolYear = document.getElementById('school-years').value;
+        const schoolYearText = document.getElementById('school-years').options[document.getElementById('school-years').selectedIndex].textContent;        
+        const event = document.getElementById('event').value;
+        const place = document.getElementById('place').value;
+        const date = document.getElementById('date').value;
+        const category = document.getElementById('category').value;
+        const categoryText = document.getElementById('category').options[document.getElementById('category').selectedIndex].textContent;        
+        const timeStarted = document.getElementById('time-started').value;
+        const timeFinished = document.getElementById('time-finished').value;
+        const matchNo = document.getElementById('match-no').value;
+
+        const lineJudge1 = document.getElementById('judge1').value;
+        const lineJudge1Text = document.getElementById('judge1').options[document.getElementById('judge1').selectedIndex].textContent;        
+        const lineJudge2 = document.getElementById('judge2').value;
+        const lineJudge2Text = document.getElementById('judge2').options[document.getElementById('judge2').selectedIndex].textContent;        
+        const referee1 = document.getElementById('referee1').value;
+        const referee1Text = document.getElementById('referee1').options[document.getElementById('referee1').selectedIndex].textContent;        
+        const referee2 = document.getElementById('referee2').value;
+        const referee2Text = document.getElementById('referee2').options[document.getElementById('referee2').selectedIndex].textContent;        
+        const scorekeeper = document.getElementById('scorer').value;
+        const scorekeeperText = document.getElementById('scorer').options[document.getElementById('scorer').selectedIndex].textContent;      
+        
+        if (!schoolYear || !event || !place || !date || !category || !categoryText || !timeFinished || !timeStarted ||
+        !matchNo || !lineJudge1 || !lineJudge2 || !referee1 || !referee2 || !scorekeeper) {
+        alert('Please fill out all required fields.');
+        return;
+    }
+    
+        const volleyballData = {
+            volleyInfo: {
+                schoolYear, schoolYearText, event, place, date, category, matchNo, categoryText, timeStarted, timeFinished
+            },
+            officials: 
+            { lineJudge1, lineJudge2, referee1, referee2, referee1Text, referee2Text, scorekeeper, lineJudge1Text, lineJudge2Text, scorekeeperText },
+        };
+    
+        // Saving the structured data in localStorage
+        localStorage.setItem('volleyballData', JSON.stringify(volleyballData));
+    
+        // Retrieve and print the stored data for verification
+        const storedData = JSON.parse(localStorage.getItem('volleyballData'));
+        
+        console.log('Stored Data:');
+        console.log('Match Info:');
+        console.log('  School Year:', storedData.volleyInfo.schoolYear);
+        console.log('  School Year (Text):', storedData.volleyInfo.schoolYearText);
+        console.log('  Event:', storedData.volleyInfo.event);
+        console.log('  Place:', storedData.volleyInfo.place);
+        console.log('  Date:', storedData.volleyInfo.date);
+        console.log('  Category:', storedData.volleyInfo.category);
+        console.log('  Category:', storedData.volleyInfo.timeStarted);
+        console.log('  Category:', storedData.volleyInfo.timeFinished);
+        console.log('  Category (Text):', storedData.volleyInfo.categoryText);
+        console.log('  Match No:', storedData.volleyInfo.matchNo);
+    
+        console.log('Officials:');
+        console.log('  Line Judge 1:', storedData.officials.lineJudge1);
+        console.log('  Line Judge 1 (Text):', storedData.officials.lineJudge1Text);
+        console.log('  Line Judge 2:', storedData.officials.lineJudge2);
+        console.log('  Line Judge 2 (Text):', storedData.officials.lineJudge2Text);
+        console.log('  Referee 1:', storedData.officials.referee1);
+        console.log('  Referee 1 (Text):', storedData.officials.referee1Text);
+        console.log('  Referee 2:', storedData.officials.referee2);
+        console.log('  Referee 2 (Text):', storedData.officials.referee2Text);
+        console.log('  Scorekeeper:', storedData.officials.scorekeeper);
+        console.log('  Scorekeeper (Text):', storedData.officials.scorekeeperText);    
+
+        const redirectUrl1 = "{% url 'myapp:volleyball_sheet' %}"; // Use the Django template tag
+    
+        window.open(redirectUrl1, '_blank'); // Open in a new tab    
+});    
+    
+</script>    
+</body>
+</html>

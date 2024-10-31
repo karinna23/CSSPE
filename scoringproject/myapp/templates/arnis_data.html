@@ -1,0 +1,96 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARNIS DATA</title>
+    <link rel="icon" type="image/png" href="{% static 'img/selogo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+</head>
+<body> 
+<header>
+        <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/csspe.png' %}" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <span>{{ username|upper  }}</span> <!-- Display Username -->
+                </li>
+                <li>
+                    <a href="javascript:history.back()">
+                        <img src="{% static '/img/back.png'%}"  alt="Match History" class="icon" placeholder="icon" /> <!-- Image as Icon -->
+                        <span class="tooltip-text">Go back</span> <!-- Tooltip Text -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> 
+</header>  
+{% if messages %}
+<div class="floating-messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+<h1>School Years</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>School Year</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if school_years %}
+            <tr>
+                <td>
+                    <a href="{% url 'myapp:arnis_sport_details' year_id=school_years.pk %}" class="school-year">
+                        {{ school_years.start_year }}-{{ school_years.end_year }}
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>No school year available</td>
+            </tr>
+        {% endif %}
+        
+        </tbody>
+        </table>
+</div>
+
+<h1>Colleges</h1>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>College Abbreviaton</th>
+            <th>College Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for college in colleges %}
+        <tr>
+            <td>{{ college.college_abb }}</td>
+            <td>{{ college.college_name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+</div>
+<script>
+    // Automatically hide the message after 3 seconds
+    setTimeout(function() {
+        const messages = document.querySelector('.floating-messages');
+        if (messages) {
+            messages.style.opacity = '0';
+            setTimeout(() => messages.remove(), 1000);
+        }
+    }, 3000);
+</script>
+</body>
+</html>
