@@ -1,9 +1,0 @@
-{% extends "../base.html" %}
-{%load static%}
-{% block title %}Admin | Referees{% endblock %}
-{% block content %}
-{% for account in accounts %}
-{{account.email}}
-{% endfor %}
-<a href="{% url 'admin_mode:add_referee' %}">Create new Referee</a>
-{% endblock %}
